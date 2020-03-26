@@ -1,4 +1,4 @@
-package com.iac.controller;
+package com.iac.webshop.logical.controller;
 
 
 import io.javalin.http.Context;

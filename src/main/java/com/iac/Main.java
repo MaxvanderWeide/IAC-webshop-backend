@@ -1,6 +1,6 @@
 package com.iac;
 
-import com.iac.controller.DefaultController;
+import com.iac.webshop.logical.controller.DefaultController;
 import io.javalin.Javalin;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
