@@ -25,6 +25,24 @@ hs_err_pid*
 # IntelliJ
 *.iml
 .idea
+/out/
+/*.zip
+/plugin.xml
+/plugins
 
 # generated
-target/*
+/target
+/test/reports
+/logs
+/stacktrace.log
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
