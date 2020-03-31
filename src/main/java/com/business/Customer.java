@@ -1,4 +1,4 @@
-package com.iacweb.iacweb.model;
+package com.business;
 
 import java.util.Date;
 
