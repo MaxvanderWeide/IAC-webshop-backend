@@ -21,12 +21,26 @@ public class ProductController {
     }
 
     @GetMapping("/products/{Id}")
-    public String getProductWithId(@PathVariable int Id) {
-        return String.format("Product: %s", Id);
+    public String getProductWithId(@PathVariable int id) {
+        return String.format("Product: %s", id);
     }
 
     @GetMapping("/products/{Id}/categories")
-    public String getCategoriesWithProductId(@PathVariable int Id) {
-        return String.format("Category: %s", Id);
+    public String getCategoriesWithProductId(@PathVariable int id) {
+        return String.format("Category: %s", id);
+    }
+
+    @GetMapping("/categories")
+    public List<String> getCategories() {
+        List<String> categories = new ArrayList<>();
+        categories.add("Category");
+        categories.add("Category");
+        categories.add("Category");
+        return categories;
+    }
+
+    @GetMapping("/categories/{Id}")
+    public String getCategoriesWithId(@PathVariable int id) {
+        return String.format("Category: %s", id);
     }
 }
