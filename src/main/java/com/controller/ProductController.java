@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.persitence.IACDAO;
+import com.persitence.IACDAOImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,8 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<String> getProducts() {
+        IACDAO iacdao = new IACDAOImpl();
+        iacdao.getThings();
         List<String> products = new ArrayList<>();
         products.add("Product");
         products.add("Product");
