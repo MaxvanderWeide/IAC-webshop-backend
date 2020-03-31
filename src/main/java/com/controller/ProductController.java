@@ -1,7 +1,7 @@
-package com.presentation.controllers;
+package com.controller;
 
-import com.application.product.ProductService;
-import com.application.product.ProductServices;
+import com.model.product.ProductService;
+import com.model.product.ProductServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;

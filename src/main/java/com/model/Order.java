@@ -1,4 +1,6 @@
-package com.domain;
+package com.model;
+
+import com.model.product.Product;
 
 import java.util.Date;
 import java.util.List;

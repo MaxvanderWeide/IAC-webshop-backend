@@ -1,6 +1,4 @@
-package com.application.product;
-
-import com.domain.Product;
+package com.model.product;
 
 import java.util.List;
 
