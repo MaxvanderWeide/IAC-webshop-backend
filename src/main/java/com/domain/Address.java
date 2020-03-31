@@ -1,4 +1,4 @@
-package com.business;
+package com.domain;
 
 public class Address {
 }

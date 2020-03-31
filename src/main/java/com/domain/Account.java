@@ -1,4 +1,4 @@
-package com.business;
+package com.domain;
 
 import java.util.Date;
 
