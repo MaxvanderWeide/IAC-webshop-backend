@@ -1,10 +1,9 @@
 package com.controller;
 
+import com.model.product.Product;
 import com.persitence.IACDAO;
 import com.persitence.IACDAOImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +32,12 @@ public class ProductController {
     public String getCategoriesWithProductId(@PathVariable int id) {
         return String.format("Category: %s", id);
     }
+
+    @PostMapping("/products")
+    public String welcome(@RequestBody String name, double price) {
+        return String.format("Product name is: % and the price is: %", name, price);
+    }
+
 
     @GetMapping("/categories")
     public List<String> getCategories() {
