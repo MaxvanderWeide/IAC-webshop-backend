@@ -34,8 +34,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public String welcome(@RequestBody String name, double price) {
-        return String.format("Product name is: % and the price is: %", name, price);
+    public String createProduct(@RequestBody Product product) {
+        return String.format("Naam is: %s and Price is: %s", product.getName(), product.getPrice());
     }
 
 
