@@ -5,6 +5,7 @@ import com.model.product.ProductService;
 import com.model.product.ProductServices;
 import com.persitence.IACDAO;
 import com.persitence.IACDAOImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public String createProduct(@RequestBody Product product) {
-        return getProductService().createProduct(product) ? "Gelukt!" : "Niet gelukt!";
+    public HttpStatus createProduct(@RequestBody Product product) {
+        return getProductService().createProduct(product) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }
 
 

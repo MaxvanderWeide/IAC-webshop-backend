@@ -1,17 +1,27 @@
 package com.persitence;
 
 import com.model.product.Product;
+import com.service.ConfigSelector;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class IACDAOImpl extends BaseDAO implements IACDAO{
 
     @Override
     public boolean saveProduct(Product product) {
-        Connection conn = getConnection();
-        try {
-            conn.createStatement();
+        String query = String.format("INSERT INTO `%s`.product (name, description, price, categoryID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)){
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setString(2, product.getDescription());
+            preparedStatement.setDouble(3, product.getPrice());
+            preparedStatement.setInt(4, product.getCategoryID());
+
+            preparedStatement.execute();
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

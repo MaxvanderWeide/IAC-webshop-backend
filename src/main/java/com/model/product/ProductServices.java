@@ -22,7 +22,7 @@ public class ProductServices implements ProductService {
 
         List<Product> products = new ArrayList<>();
         for (int i = 0; i <= 10; i++) {
-            products.add(new Product(10, "naam", 5.00));
+            products.add(new Product(10, "naam", "beschrijving", 5.00, 1));
         }
         return products;
     }
