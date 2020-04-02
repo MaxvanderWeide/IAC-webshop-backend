@@ -7,6 +7,7 @@ public class IACDAOImpl extends BaseDAO implements IACDAO{
     public String getThings() {
         Connection conn = getConnection();
         System.out.println(conn);
+        closeConnection();
         return "hey";
     }
 }

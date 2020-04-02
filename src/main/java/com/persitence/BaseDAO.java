@@ -1,5 +1,7 @@
 package com.persitence;
 
+import com.service.ConfigSelector;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +14,10 @@ public abstract class BaseDAO {
             if (connection == null || connection.isClosed() || !connection.isValid(10)) {
 
                 connection =
-                        DriverManager.getConnection("driver location");
+                        DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
+                                ConfigSelector.HOST, ConfigSelector.PORT,
+                                ConfigSelector.SCHEMA), ConfigSelector.USERNAME,
+                                ConfigSelector.PASSWORD);
 
             }
         } catch (SQLException ex) {
