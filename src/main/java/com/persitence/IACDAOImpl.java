@@ -1,13 +1,21 @@
 package com.persitence;
 
+import com.model.product.Product;
+
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class IACDAOImpl extends BaseDAO implements IACDAO{
+
     @Override
-    public String getThings() {
+    public boolean saveProduct(Product product) {
         Connection conn = getConnection();
-        System.out.println(conn);
-        closeConnection();
-        return "hey";
+        try {
+            conn.createStatement();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

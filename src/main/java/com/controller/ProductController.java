@@ -1,6 +1,8 @@
 package com.controller;
 
 import com.model.product.Product;
+import com.model.product.ProductService;
+import com.model.product.ProductServices;
 import com.persitence.IACDAO;
 import com.persitence.IACDAOImpl;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +14,17 @@ import java.util.List;
 @RestController
 public class ProductController {
 
+    private ProductService productService;
+
+    private ProductService getProductService() {
+        if (productService != null) {
+            return productService;
+        }
+        return productService = new ProductServices();
+    }
+
     @GetMapping("/products")
     public List<String> getProducts() {
-        IACDAO iacdao = new IACDAOImpl();
-        iacdao.getThings();
         List<String> products = new ArrayList<>();
         products.add("Product");
         products.add("Product");
@@ -35,7 +44,7 @@ public class ProductController {
 
     @PostMapping("/products")
     public String createProduct(@RequestBody Product product) {
-        return String.format("Naam is: %s and Price is: %s", product.getName(), product.getPrice());
+        return getProductService().createProduct(product) ? "Gelukt!" : "Niet gelukt!";
     }
 
 

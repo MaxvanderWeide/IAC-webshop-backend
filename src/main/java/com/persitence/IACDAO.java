@@ -1,6 +1,8 @@
 package com.persitence;
 
+import com.model.product.Product;
+
 public interface IACDAO {
 
-    String getThings();
+    boolean saveProduct(Product product);
 }
