@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.model.category.CategoryService;
+import com.model.category.CategoryServices;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
@@ -14,12 +16,20 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
+    private CategoryService categoryService;
 
     private ProductService getProductService() {
         if (productService != null) {
             return productService;
         }
         return productService = new ProductServices();
+    }
+
+    private CategoryService getCategoryService() {
+        if (categoryService != null) {
+            return categoryService;
+        }
+        return categoryService = new CategoryServices();
     }
 
     @GetMapping("/products")
@@ -56,8 +66,8 @@ public class ProductController {
         return categories;
     }
 
-    @GetMapping("/categories/{Id}")
-    public String getCategoriesWithId(@PathVariable int id) {
-        return String.format("Category: %s", id);
+    @GetMapping("/categories/{id}")
+    public List<Product> getCategoriesWithId(@PathVariable int id) {
+        return getCategoryService().getProductsWithinCategory(id);
     }
 }
