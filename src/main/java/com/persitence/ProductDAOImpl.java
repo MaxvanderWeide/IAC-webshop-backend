@@ -38,7 +38,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     @Override
     public boolean saveProduct(Product product) {
         String createQuery = String.format("INSERT INTO `%s`.product (name, description, price, categoryID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
-        int categoryID = getNewCategoryID();
+        int categoryID = getCategoryIDByName("nieuw");
 
         if (categoryID == 0) {
             return false;
@@ -60,20 +60,20 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         return false;
     }
 
-    //Gets the ID from category named 'nieuw'
-    public int getNewCategoryID() {
+    public int getCategoryIDByName(String name) {
         ResultSet rs;
-        String getQuery = String.format("SELECT categoryID FROM `%s`.category WHERE name = 'nieuw'", ConfigSelector.SCHEMA);
+        String getQuery = String.format("SELECT categoryID FROM `%s`.category WHERE name = ?", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(getQuery)) {
+            preparedStatement.setString(1, name);
             rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
                 return rs.getInt(1);
             }
 
-            return createCategoryNew();
+            return createCategoryWithName(name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,11 +81,12 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         return 0;
     }
 
-    public int createCategoryNew() {
-        String createQuery = String.format("INSERT INTO `%s`.category (name, description) VALUE ('nieuw', 'categorie van nieuwe aangemaakte producten');", ConfigSelector.SCHEMA);
+    public int createCategoryWithName(String name) {
+        String createQuery = String.format("INSERT INTO `%s`.category (name) VALUE (?);", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, name);
             preparedStatement.execute();
 
             ResultSet rs = preparedStatement.getGeneratedKeys();
