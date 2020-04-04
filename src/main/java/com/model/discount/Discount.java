@@ -1,4 +1,4 @@
-package com.model;
+package com.model.discount;
 
 import com.model.product.Product;
 
