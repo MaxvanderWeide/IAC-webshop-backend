@@ -16,6 +16,9 @@ public class ConfigSelector {
     public static final String PASSWORD;
     public static final String APIURL;
 
+    // Authentication
+    public static final String SECRET_KEY;
+
     private ConfigSelector() {
     }
 
@@ -32,6 +35,7 @@ public class ConfigSelector {
         USERNAME = appProps.getProperty("USERNAME");
         PASSWORD = appProps.getProperty("PASSWORD");
         APIURL = appProps.getProperty("APIURL");
+        SECRET_KEY = appProps.getProperty("SECRET_KEY");
 
         Objects.requireNonNull(HOST);
         Objects.requireNonNull(appProps.getProperty("PORT"));
@@ -39,6 +43,7 @@ public class ConfigSelector {
         Objects.requireNonNull(USERNAME);
         Objects.requireNonNull(PASSWORD);
         Objects.requireNonNull(APIURL);
+        Objects.requireNonNull(SECRET_KEY);
     }
 
 }
