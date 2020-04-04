@@ -5,9 +5,14 @@ public class Category {
     private int id;
     private String name;
     private String description;
+    private double price;
     private int imageId;
 
     public Category() {
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Category setId(int id) {
@@ -17,6 +22,11 @@ public class Category {
 
     public Category setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public Category setPrice(double price) {
+        this.price = price;
         return this;
     }
 
