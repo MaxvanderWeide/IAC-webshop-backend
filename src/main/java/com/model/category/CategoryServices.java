@@ -1,8 +1,8 @@
 package com.model.category;
 
 import com.model.product.Product;
-import com.persitence.category.CategoryDAO;
-import com.persitence.category.CategoryDAOImpl;
+import com.persistence.category.CategoryDAO;
+import com.persistence.category.CategoryDAOImpl;
 
 import java.util.List;
 

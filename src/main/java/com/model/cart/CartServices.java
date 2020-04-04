@@ -1,7 +1,7 @@
 package com.model.cart;
 
-import com.persitence.category.CategoryDAO;
-import com.persitence.category.CategoryDAOImpl;
+import com.persistence.category.CategoryDAO;
+import com.persistence.category.CategoryDAOImpl;
 
 public class CartServices implements CartService {
 

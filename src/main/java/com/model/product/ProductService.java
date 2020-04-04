@@ -6,5 +6,5 @@ public interface ProductService {
 
     List<Product> getProducts();
     Product getProductWithId(int id);
-    boolean createProduct(Product product);
+    Product createProduct(Product product);
 }

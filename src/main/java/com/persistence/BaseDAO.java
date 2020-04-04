@@ -1,4 +1,4 @@
-package com.persitence;
+package com.persistence;
 
 import com.service.ConfigSelector;
 
