@@ -16,10 +16,10 @@ import java.util.Map;
 
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
     private ProductService productService;
-    private CategoryService categoryService;
 
     private ProductService getProductService() {
         if (productService != null) {
@@ -28,14 +28,7 @@ public class ProductController {
         return productService = new ProductServices();
     }
 
-    private CategoryService getCategoryService() {
-        if (categoryService != null) {
-            return categoryService;
-        }
-        return categoryService = new CategoryServices();
-    }
-
-    @GetMapping("/products")
+    @GetMapping()
     public List<String> getProducts() {
         List<String> products = new ArrayList<>();
         products.add("Product");
@@ -44,7 +37,12 @@ public class ProductController {
         return products;
     }
 
-    @GetMapping("/products/{id}")
+    @PostMapping()
+    public HttpStatus createProduct(@RequestBody Product product) {
+        return getProductService().createProduct(product) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+    }
+
+    @GetMapping("/{id}")
     public Map<String, Object> getProductWithId(@PathVariable int id) {
         Product product = getProductService().getProductWithId(id);
         HashMap<String, Object> map = new HashMap<>();
@@ -64,32 +62,8 @@ public class ProductController {
 
     }
 
-    @GetMapping("/products/{id}/categories")
+    @GetMapping("/{id}/categories")
     public String getCategoriesWithProductId(@PathVariable int id) {
         return String.format("Category: %s", id);
-    }
-
-    @PostMapping("/products")
-    public HttpStatus createProduct(@RequestBody Product product) {
-        return getProductService().createProduct(product) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-    }
-
-
-    @GetMapping("/categories")
-    public List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
-        categories.add("Category");
-        categories.add("Category");
-        categories.add("Category");
-        return categories;
-    }
-
-    @GetMapping("/categories/{id}")
-    public Map getCategoriesWithId(@PathVariable int id) {
-        Map<String, Object> map = new HashMap<>();
-        for (Product p : getCategoryService().getProductsWithinCategory(id)) {
-            map.put(p.getName(), String.format("%s/products/%s", ConfigSelector.APIURL, p.getId()));
-        }
-        return map;
     }
 }
