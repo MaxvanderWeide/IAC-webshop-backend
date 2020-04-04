@@ -1,7 +1,7 @@
-package com.persitence;
+package com.persitence.category;
 
-import com.model.category.Category;
 import com.model.product.Product;
+import com.persitence.BaseDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

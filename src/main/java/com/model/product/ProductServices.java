@@ -1,7 +1,7 @@
 package com.model.product;
 
-import com.persitence.ProductDAO;
-import com.persitence.ProductDAOImpl;
+import com.persitence.product.ProductDAO;
+import com.persitence.product.ProductDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;

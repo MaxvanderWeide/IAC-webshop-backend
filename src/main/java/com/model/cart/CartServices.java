@@ -1,12 +1,9 @@
-package com.model.category;
+package com.model.cart;
 
-import com.model.product.Product;
 import com.persitence.category.CategoryDAO;
 import com.persitence.category.CategoryDAOImpl;
 
-import java.util.List;
-
-public class CategoryServices implements CategoryService {
+public class CartServices implements CartService {
 
     private CategoryDAO categoryDAO;
 
@@ -15,10 +12,5 @@ public class CategoryServices implements CategoryService {
             return categoryDAO;
         }
         return categoryDAO = new CategoryDAOImpl();
-    }
-
-    @Override
-    public List<Product> getProductsWithinCategory(int id) {
-        return getCategoryDAO().getProductsWithinCategory(id);
     }
 }
