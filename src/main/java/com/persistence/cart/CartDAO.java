@@ -1,4 +1,4 @@
-package com.persitence.cart;
+package com.persistence.cart;
 
 public interface CartDAO {
 }

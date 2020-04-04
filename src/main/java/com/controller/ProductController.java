@@ -3,16 +3,15 @@ package com.controller;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
+import com.persistence.storage.StorageGCP;
+import com.persistence.storage.StorageGCPFile;
 import io.jsonwebtoken.Claims;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -21,12 +20,20 @@ import java.util.Map;
 public class ProductController {
 
     private ProductService productService;
+    private StorageGCP storageGCP;
 
     private ProductService getProductService() {
         if (productService != null) {
             return productService;
         }
         return productService = new ProductServices();
+    }
+
+    private StorageGCP getStorageGCP() {
+        if (storageGCP != null) {
+            return storageGCP;
+        }
+        return storageGCP = new StorageGCPFile();
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,9 +50,33 @@ public class ProductController {
     }
 
     @PostMapping()
-    public HttpStatus createProduct(Authentication authentication, @RequestBody Product product) {
-        System.out.println(authentication);
-        return getProductService().createProduct(product) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+    public Map<Object, Object> createProduct(HttpServletRequest request, @RequestBody Product product) {
+        Map<Object, Object> response = new HashMap<>();
+        System.out.println(product);
+
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            response.put(401, "Not authenticated");
+            return response;
+        }
+        Product product1 = getProductService().createProduct(product);
+        if (product1 == null) {
+            response.put(400, "Product kon niet gemaakt worden");
+            return response;
+        }
+        response.put("Product", product);
+        return response;
+    }
+
+    @PostMapping("/{id}/images")
+    public Map<Object, Object> createImageUsingProduct(HttpServletRequest request,
+                                                       @RequestParam("file") MultipartFile file,
+                                                       @PathVariable int id) {
+        Map<Object, Object> response = new HashMap<>();
+        Product product = getProductService().getProductWithId(id);
+//        getStorageGCP().uploadFile(file);
+        response.put(405, "Load balancing does not allow this to happen right now.");
+        return response;
     }
 
     @GetMapping("/{id}")

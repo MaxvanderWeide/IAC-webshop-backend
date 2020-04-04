@@ -1,9 +1,9 @@
-package com.persitence.product;
+package com.persistence.product;
 
 import com.model.product.Product;
 
 public interface ProductDAO {
 
     Product getProductWithId(int id);
-    boolean saveProduct(Product product);
+    Product saveProduct(Product product);
 }

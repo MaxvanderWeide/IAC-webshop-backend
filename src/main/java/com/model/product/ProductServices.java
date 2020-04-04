@@ -1,7 +1,7 @@
 package com.model.product;
 
-import com.persitence.product.ProductDAO;
-import com.persitence.product.ProductDAOImpl;
+import com.persistence.product.ProductDAO;
+import com.persistence.product.ProductDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ProductServices implements ProductService {
     public Product getProductWithId(int id) { return getIacDao().getProductWithId(id); }
 
     @Override
-    public boolean createProduct(Product product) {
+    public Product createProduct(Product product) {
         return getIacDao().saveProduct(product);
     }
 }

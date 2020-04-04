@@ -1,7 +1,7 @@
-package com.persitence.product;
+package com.persistence.product;
 
 import com.model.product.Product;
-import com.persitence.BaseDAO;
+import com.persistence.BaseDAO;
 import com.service.ConfigSelector;
 
 import java.sql.*;
@@ -37,12 +37,12 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     }
 
     @Override
-    public boolean saveProduct(Product product) {
+    public Product saveProduct(Product product) {
         String createQuery = String.format("INSERT INTO `%s`.product (name, description, price, categoryID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
         int categoryID = getCategoryIDByName("nieuw");
 
         if (categoryID == 0) {
-            return false;
+            return null;
         }
 
         try (Connection conn = getConnection();
@@ -54,11 +54,11 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
 
             preparedStatement.execute();
 
-            return true;
+            return product;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public int getCategoryIDByName(String name) {

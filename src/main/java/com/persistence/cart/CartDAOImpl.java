@@ -1,6 +1,6 @@
-package com.persitence.cart;
+package com.persistence.cart;
 
-import com.persitence.BaseDAO;
+import com.persistence.BaseDAO;
 
 public class CartDAOImpl extends BaseDAO implements CartDAO {
 }

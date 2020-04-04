@@ -6,6 +6,7 @@ public class Product {
     private String description;
     private double price;
     private int categoryID;
+    private String image;
 
     public Product() {
     }
@@ -25,55 +26,40 @@ public class Product {
         this.categoryID = categoryID;
     }
 
-    //Getters and Setters
-    //Id
     public int getId() {
         return id;
     }
-
     public Product setId(int id) {
         this.id = id;
         return this;
     }
-
-    //Name
     public String getName() {
         return name;
     }
-
     public Product setName(String name) {
         this.name = name;
         return this;
     }
-
-    //Price
     public double getPrice() {
         return price;
     }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    //Description
     public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    //CategoryID
     public int getCategoryID() {
         return categoryID;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public Product setImage(String image) {
+        this.image = image;
+        return this;
+    }
+
+    public String getImage() {
+        return this.image;
     }
 
     public String toString() {
-        return String.format("id=%s, name=%s, description=%s, price=%s", id, name, description, price);
+        return String.format("id=%s, name=%s, description=%s, price=%s, image=%s", id, name, description, price, image);
     }
 }
