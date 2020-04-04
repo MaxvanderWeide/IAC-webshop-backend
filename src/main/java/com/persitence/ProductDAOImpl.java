@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class IACDAOImpl extends BaseDAO implements IACDAO{
+public class ProductDAOImpl extends BaseDAO implements ProductDAO {
 
     @Override
     public boolean saveProduct(Product product) {

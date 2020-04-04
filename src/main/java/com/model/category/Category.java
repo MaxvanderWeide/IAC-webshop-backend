@@ -1,6 +1,4 @@
-package com.model.product;
-
-import java.util.List;
+package com.model.category;
 
 public class Category {
 
@@ -30,10 +28,5 @@ public class Category {
     public Category setImageId(int imageId) {
         this.imageId = imageId;
         return this;
-    }
-
-    public List<Product> getIncludedProducts() {
-        ProductServices productServices = new ProductServices();
-        return productServices.getProductsWithinCategory(this);
     }
 }

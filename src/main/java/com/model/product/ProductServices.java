@@ -1,20 +1,20 @@
 package com.model.product;
 
-import com.persitence.IACDAO;
-import com.persitence.IACDAOImpl;
+import com.persitence.ProductDAO;
+import com.persitence.ProductDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductServices implements ProductService {
 
-    private IACDAO iacdao;
+    private ProductDAO productDAO;
 
-    private IACDAO getIacDao() {
-        if (iacdao != null) {
-            return iacdao;
+    private ProductDAO getIacDao() {
+        if (productDAO != null) {
+            return productDAO;
         }
-        return iacdao = new IACDAOImpl();
+        return productDAO = new ProductDAOImpl();
     }
 
     @Override
@@ -25,11 +25,6 @@ public class ProductServices implements ProductService {
             products.add(new Product(10, "naam", "beschrijving", 5.00, 1));
         }
         return products;
-    }
-
-    @Override
-    public List<Product> getProductsWithinCategory(Category category) {
-        return null;
     }
 
     @Override
