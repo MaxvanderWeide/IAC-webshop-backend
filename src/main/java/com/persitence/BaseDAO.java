@@ -14,7 +14,7 @@ public abstract class BaseDAO {
             if (connection == null || connection.isClosed() || !connection.isValid(10)) {
 
                 connection =
-                        DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s",
+                        DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s?useSSL=false",
                                 ConfigSelector.HOST, ConfigSelector.PORT,
                                 ConfigSelector.SCHEMA), ConfigSelector.USERNAME,
                                 ConfigSelector.PASSWORD);
