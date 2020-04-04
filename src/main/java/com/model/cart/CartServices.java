@@ -1,16 +1,20 @@
 package com.model.cart;
 
+import com.persitence.cart.CartDAO;
+import com.persitence.cart.CartDAOImpl;
 import com.persitence.category.CategoryDAO;
 import com.persitence.category.CategoryDAOImpl;
 
 public class CartServices implements CartService {
 
-    private CategoryDAO categoryDAO;
+    private CartDAO cartDAO;
 
-    private CategoryDAO getCategoryDAO() {
-        if (categoryDAO != null) {
-            return categoryDAO;
+    private CartDAO getCartDAO() {
+        if (cartDAO != null) {
+            return cartDAO;
         }
-        return categoryDAO = new CategoryDAOImpl();
+        return cartDAO = new CartDAOImpl();
     }
+
+
 }
