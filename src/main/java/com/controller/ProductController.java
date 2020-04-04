@@ -5,6 +5,7 @@ import com.model.category.CategoryServices;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
+import com.service.ConfigSelector;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,13 +64,6 @@ public class ProductController {
 
     }
 
-//    @GetMapping("/products/{id}")
-//    public String getProductWithId(@PathVariable int id) {
-//        Product product = getProductService().getProductWithId(id);
-//
-//        return String.format("Product naam: %s", product.getName());
-//    }
-
     @GetMapping("/products/{id}/categories")
     public String getCategoriesWithProductId(@PathVariable int id) {
         return String.format("Category: %s", id);
@@ -91,7 +85,11 @@ public class ProductController {
     }
 
     @GetMapping("/categories/{id}")
-    public List<Product> getCategoriesWithId(@PathVariable int id) {
-        return getCategoryService().getProductsWithinCategory(id);
+    public Map getCategoriesWithId(@PathVariable int id) {
+        Map<String, Object> map = new HashMap<>();
+        for (Product p : getCategoryService().getProductsWithinCategory(id)) {
+            map.put(p.getName(), String.format("%s/products/%s", ConfigSelector.APIURL, p.getId()));
+        }
+        return map;
     }
 }

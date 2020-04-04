@@ -14,6 +14,7 @@ public class ConfigSelector {
     public static final String SCHEMA;
     public static final String USERNAME;
     public static final String PASSWORD;
+    public static final String APIURL;
 
     private ConfigSelector() {
     }
@@ -30,12 +31,14 @@ public class ConfigSelector {
         SCHEMA = appProps.getProperty("SCHEMA");
         USERNAME = appProps.getProperty("USERNAME");
         PASSWORD = appProps.getProperty("PASSWORD");
+        APIURL = appProps.getProperty("APIURL");
 
         Objects.requireNonNull(HOST);
         Objects.requireNonNull(appProps.getProperty("PORT"));
         Objects.requireNonNull(SCHEMA);
         Objects.requireNonNull(USERNAME);
         Objects.requireNonNull(PASSWORD);
+        Objects.requireNonNull(APIURL);
     }
 
 }

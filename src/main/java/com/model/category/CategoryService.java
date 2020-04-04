@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface CategoryService {
 
-    List<Product> getProductsWithinCategory(Category category);
     List<Product> getProductsWithinCategory(int id);
 }

@@ -24,8 +24,9 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
+    public Product setId(int id) {
         this.id = id;
+        return this;
     }
 
     //Name
@@ -33,8 +34,9 @@ public class Product {
         return name;
     }
 
-    public void setName(String name) {
+    public Product setName(String name) {
         this.name = name;
+        return this;
     }
 
     //Price
