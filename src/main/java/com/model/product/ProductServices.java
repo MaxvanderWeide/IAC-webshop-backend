@@ -28,7 +28,8 @@ public class ProductServices implements ProductService {
     }
 
     @Override
-    public Product getProductWithId(int id) { return "Hello"; }
+    public Product getProductWithId(int id) { return getIacDao().getProductWithId(id); }
+
     @Override
     public boolean createProduct(Product product) {
         return getIacDao().saveProduct(product);

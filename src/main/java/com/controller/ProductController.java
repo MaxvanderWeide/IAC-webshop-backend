@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -41,12 +43,34 @@ public class ProductController {
         return products;
     }
 
-    @GetMapping("/products/{Id}")
-    public String getProductWithId(@PathVariable int id) {
-        return String.format("Product: %s", id);
+    @GetMapping("/products/{id}")
+    public Map<String, Object> getProductWithId(@PathVariable int id) {
+        Product product = getProductService().getProductWithId(id);
+        HashMap<String, Object> map = new HashMap<>();
+
+        if (product == null) {
+            map.put("message", "werkt niet broer");
+            return map;
+        }
+
+        map.put("id", product.getId());
+        map.put("name", product.getName());
+        map.put("description", product.getDescription());
+        map.put("price", product.getPrice());
+        map.put("categoriy", product.getCategoryID());
+
+        return map;
+
     }
 
-    @GetMapping("/products/{Id}/categories")
+//    @GetMapping("/products/{id}")
+//    public String getProductWithId(@PathVariable int id) {
+//        Product product = getProductService().getProductWithId(id);
+//
+//        return String.format("Product naam: %s", product.getName());
+//    }
+
+    @GetMapping("/products/{id}/categories")
     public String getCategoriesWithProductId(@PathVariable int id) {
         return String.format("Category: %s", id);
     }
