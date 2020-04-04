@@ -1,11 +1,8 @@
 package com.controller;
 
-import com.model.category.CategoryService;
-import com.model.category.CategoryServices;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
-import com.service.ConfigSelector;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
