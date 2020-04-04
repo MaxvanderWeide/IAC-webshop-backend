@@ -1,4 +1,4 @@
-package com.persitence;
+package com.persitence.category;
 
 import com.model.product.Product;
 
