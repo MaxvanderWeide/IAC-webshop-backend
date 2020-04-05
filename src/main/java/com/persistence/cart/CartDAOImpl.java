@@ -3,6 +3,8 @@ package com.persistence.cart;
 import com.model.cart.CartItem;
 import com.model.customer.Customer;
 import com.persistence.BaseDAO;
+import com.persistence.product.ProductDAO;
+import com.persistence.product.ProductDAOImpl;
 import com.service.ConfigSelector;
 
 import java.sql.*;
@@ -40,7 +42,13 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
 
     @Override
     public boolean addCartItemToCustomerCart(CartItem cartItem) {
-        String createQuery = String.format("INSERT INTO `%s`.customer_products (productID, amount, customerID) VALUE (?, ?, ?);", ConfigSelector.SCHEMA);
+        ProductDAO productDAO = new ProductDAOImpl();
+        if (productDAO.getProductWithId(cartItem.getProductID()) == null) {
+            return false;
+        }
+        String createQuery = String.format("INSERT INTO " +
+                "`%s`.customer_products (productID, amount, customerID) " +
+                "VALUE (?, ?, ?);", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
@@ -74,7 +82,11 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
     @Override
     public boolean checkout(Customer customer) {
         List<CartItem> cartItems = getCartItemsByCustomerId(customer.getAccount());
+        ProductDAO productDAO = new ProductDAOImpl();
         for (CartItem cartItem : cartItems) {
+            if (productDAO.getProductWithId(cartItem.getProductID()) == null) {
+                return false;
+            }
             if (!addToOrderProduct(addToOrder(cartItem), cartItem.getCustomerID())) {
                 return false;
             }
