@@ -3,17 +3,15 @@ package com.controller;
 import com.model.customer.Customer;
 import com.model.customer.CustomerService;
 import com.model.customer.CustomerServices;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customers")
 public class CustomerController {
 
     private CustomerService customerService;
@@ -27,17 +25,12 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Map<Object, Object> getCustomerByID(@PathVariable int id) {
-        Map<Object, Object> response = new HashMap<>();
-
+    public ResponseEntity<Object> getCustomerByID(@PathVariable int id) {
         Customer customer = getCustomerService().getCustomerByID(id);
         if (customer == null) {
-            response.put(400, "Could not load customer");
-            return response;
+            return new ResponseEntity<>("Could Not Load Customer", HttpStatus.BAD_REQUEST);
         }
-
-        response.put(200, customer);
-        return response;
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
 }

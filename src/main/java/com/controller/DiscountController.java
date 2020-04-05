@@ -3,17 +3,17 @@ package com.controller;
 import com.model.discount.Discount;
 import com.model.discount.DiscountService;
 import com.model.discount.DiscountServices;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/discount")
+@RequestMapping("/discounts")
 public class DiscountController {
 
     private DiscountService discountService;
@@ -27,30 +27,20 @@ public class DiscountController {
     }
 
     @GetMapping("/{id}")
-    public Map<Object, Object> getDiscountWithId(@PathVariable int id) {
-        HashMap<Object, Object> map = new HashMap<>();
+    public ResponseEntity<Object> getDiscountWithId(@PathVariable int id) {
         Discount discount = getDiscountService().getDiscountWithId(id);
-
         if (discount == null) {
-            map.put(400, "Discount could not be found");
-            return map;
+            return new ResponseEntity<>("Discount Not Found", HttpStatus.BAD_REQUEST);
         }
-
-        map.put(200, discount);
-        return map;
+        return new ResponseEntity<>(discount, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public Map<Object, Object> getAllDiscounts() {
-        HashMap<Object, Object> map = new HashMap<>();
+    @GetMapping()
+    public ResponseEntity<Object> getAllDiscounts() {
         HashMap<Object, Object> discounts = getDiscountService().getAllDiscounts();
-
         if (discounts == null) {
-            map.put(400, "Discounts could not be found");
-            return map;
+            return new ResponseEntity<>("No Discounts Found Found", HttpStatus.NO_CONTENT);
         }
-
-        map.put(200, discounts);
-        return map;
+        return new ResponseEntity<>(discounts, HttpStatus.OK);
     }
 }

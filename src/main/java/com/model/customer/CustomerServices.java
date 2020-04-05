@@ -3,7 +3,6 @@ package com.model.customer;
 import com.persistence.customer.CustomerDAO;
 import com.persistence.customer.CustomerDAOImpl;
 
-import java.util.List;
 
 public class CustomerServices implements CustomerService {
 
@@ -20,5 +19,10 @@ public class CustomerServices implements CustomerService {
     @Override
     public Customer getCustomerByID(int id) {
         return getCustomerDAO().getCustomerByID(id);
+    }
+
+    @Override
+    public Customer getAccountWithEmail(String email) {
+        return getCustomerDAO().getAccountWithEmail(email);
     }
 }

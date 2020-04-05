@@ -2,13 +2,15 @@ package com.controller;
 
 
 import com.model.customer.Customer;
-import com.persistence.user.UserDAO;
-import com.persistence.user.UserDAOImpl;
+import com.model.customer.CustomerService;
+import com.model.customer.CustomerServices;
 import com.service.ConfigSelector;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -23,7 +25,7 @@ public class AuthController {
     private static String secretKey = ConfigSelector.SECRET_KEY;
 
     @PostMapping()
-    public String createAuthentication(@RequestParam("user") String email) {
+    public ResponseEntity<String> createAuthentication(@RequestParam("user") String email) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         long nowMillis = System.currentTimeMillis();
@@ -31,9 +33,13 @@ public class AuthController {
 
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-        UserDAO userDAO = new UserDAOImpl();
-        Customer account = userDAO.getAccountWithEmail(email);
-        System.out.println(account);
+
+        CustomerService customerService = new CustomerServices();
+        Customer account = customerService.getAccountWithEmail(email);
+
+        if (account == null) {
+            return new ResponseEntity<>("User information not found", HttpStatus.UNAUTHORIZED);
+        }
         JwtBuilder builder = Jwts.builder()
                 .setIssuedAt(now)
                 .setSubject("1")
@@ -46,7 +52,7 @@ public class AuthController {
         Date exp = new Date(expMillis);
         builder.setExpiration(exp);
 
-        return builder.compact();
+        return new ResponseEntity<>(builder.compact(), HttpStatus.OK);
     }
 
     public static Claims decodeJWT(String jwt) {

@@ -9,5 +9,6 @@ public interface CustomerDAO {
 
     Customer getCustomerByID(int id);
     Address getAddressById(int id);
+    Customer getAccountWithEmail(String email);
 
 }

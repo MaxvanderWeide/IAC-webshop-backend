@@ -9,7 +9,6 @@ import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
 import io.jsonwebtoken.Claims;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,14 +45,13 @@ public class ProductController {
     @GetMapping()
     public Map<Object, Object> getProducts(HttpServletRequest request) {
         Map<Object, Object> response = new HashMap<>();
-
 //        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
 //        if (claims == null) {
 //            response.put(401, "Not authenticated");
 //            return response;
 //        }
         for (Product product : getProductService().getProducts()) {
-            response.put(product.getId(), product);
+            response.put(product.getName(), product);
         }
         return response;
     }
