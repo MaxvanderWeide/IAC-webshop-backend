@@ -83,13 +83,18 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
     public boolean checkout(Customer customer) {
         List<CartItem> cartItems = getCartItemsByCustomerId(customer.getAccount());
         ProductDAO productDAO = new ProductDAOImpl();
+        boolean sting = false;
         for (CartItem cartItem : cartItems) {
             if (productDAO.getProductWithId(cartItem.getProductID()) == null) {
-                return false;
+                productDAO.deleteProductById(cartItem.getProductID());
+                sting = true;
             }
             if (!addToOrderProduct(addToOrder(cartItem), cartItem.getCustomerID())) {
                 return false;
             }
+        }
+        if (sting) {
+            return false; // Really bad way to do this... Sorry :)
         }
         String createQuery = String.format("DELETE FROM `%s`.customer_products WHERE customerID = ?", ConfigSelector.SCHEMA);
 

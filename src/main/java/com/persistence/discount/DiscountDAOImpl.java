@@ -54,9 +54,9 @@ public class DiscountDAOImpl extends BaseDAO implements DiscountDAO {
                 "AND sysdate() BETWEEN discount.`from` AND discount.`to`", ConfigSelector.SCHEMA, ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
-                PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
 
-            try(ResultSet rs = preparedStatement.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     HashMap<String, Object> information = new HashMap<>();
                     information.put("Product price", rs.getDouble(2));

@@ -1,9 +1,6 @@
 package com.model.discount;
 
-import com.model.product.Product;
-
 import java.util.Date;
-import java.util.List;
 
 public class Discount {
     private int id;
@@ -12,13 +9,6 @@ public class Discount {
     private Double price;
     private int product;
     private String description;
-//    private List<Product> products;
-
-//    public Discount(Date from, Date until, List<Product> products) {
-//        this.from = from;
-//        this.until = until;
-//        this.products = products;
-//    }
 
     public Discount(int id, Date from, Date until, Double price, int product, String descript) {
         this.id = id;
@@ -29,31 +19,16 @@ public class Discount {
         this.description = descript;
     }
 
-    //Getters and Setters
-    //From
     public Date getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
-        this.from = from;
-    }
-
-    //Until
     public Date getUntil() {
         return until;
     }
 
-    public void setUntil(Date until) {
-        this.until = until;
-    }
-
     public Double getPrice() {
         return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public int getProduct() {
@@ -68,7 +43,4 @@ public class Discount {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
