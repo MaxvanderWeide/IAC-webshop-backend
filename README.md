@@ -1,3 +1,5 @@
+![Java CI with Maven](https://github.com/MaxvanderWeide/IAC-webshop-backend/workflows/Java%20CI%20with%20Maven/badge.svg?branch=develop)
+
 # IAC-webshop-backend
 Backend haven for IAC Webshop
 
