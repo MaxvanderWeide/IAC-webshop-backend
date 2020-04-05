@@ -1,4 +1,4 @@
-package com.model;
+package com.model.order;
 
 import com.model.product.Product;
 

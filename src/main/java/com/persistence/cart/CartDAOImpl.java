@@ -2,6 +2,8 @@ package com.persistence.cart;
 
 import com.model.cart.Cart;
 import com.persistence.BaseDAO;
+import com.persistence.product.ProductDAO;
+import com.persistence.product.ProductDAOImpl;
 import com.service.ConfigSelector;
 
 import java.sql.Connection;
@@ -13,6 +15,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class CartDAOImpl extends BaseDAO implements CartDAO {
+    private ProductDAO productDAO;
+
+    private ProductDAO getIacDao() {
+        if (productDAO != null) {
+            return productDAO;
+        }
+        productDAO = new ProductDAOImpl();
+        return productDAO;
+    }
+
     @Override
     public List<Cart> getCartWithId(int id) {
         List<Cart> cart = new ArrayList<>();
@@ -66,15 +78,15 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
     @Override
     public Cart saveProductToCart(Cart cart) {
         boolean checkQuery = checkProductInCart(cart);
-        if (checkQuery) {
-            String createQuery = String.format("INSERT INTO `%s`.shopping_cart (shopping_cartID, productID, amount, customerID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
+        boolean checkActive = getIacDao().checkProductStatus(cart.getProductID());
+        if (checkQuery && checkActive) {
+            String createQuery = String.format("INSERT INTO `%s`.shopping_cart (productID, amount, customerID) VALUE (?, ?, ?);", ConfigSelector.SCHEMA);
 
             try (Connection conn = getConnection();
                  PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
-                preparedStatement.setInt(1, cart.getItemID());
-                preparedStatement.setInt(2, cart.getProductID());
-                preparedStatement.setInt(3, cart.getAmount());
-                preparedStatement.setInt(4, cart.getCustomerID());
+                preparedStatement.setInt(1, cart.getProductID());
+                preparedStatement.setInt(2, cart.getAmount());
+                preparedStatement.setInt(3, cart.getCustomerID());
 
                 preparedStatement.execute();
 
@@ -83,10 +95,11 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
                 e.printStackTrace();
             }
             return null;
-        } else {
+        } else if (checkActive){
             updateCart(cart);
+            return cart;
         }
-        return cart;
+        return null;
     }
 
     @Override

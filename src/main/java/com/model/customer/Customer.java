@@ -2,7 +2,7 @@ package com.model.customer;
 
 import com.model.Account;
 import com.model.Address;
-import com.model.Order;
+import com.model.order.Order;
 
 import java.util.Date;
 import java.util.List;
