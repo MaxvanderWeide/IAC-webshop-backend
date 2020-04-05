@@ -46,13 +46,16 @@ public class StorageGCPFile implements StorageGCP {
     public Blob downloadFile(Category category) {
         Storage storage = StorageOptions.newBuilder().setProjectId(ConfigSelector.PROJECT_ID).build().getService();
 
-        Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(category.getId()) + "cat"));
-
-        System.out.println(
-                "Downloaded object "
-                        + category.getId() + "cat"
-                        + " from bucket name "
-                        + ConfigSelector.BUCKET); // TODO - Add logger
-        return blob;
+        try {
+            Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(category.getId()) + "cat"));
+            System.out.println(
+                    "Downloaded object "
+                            + category.getId() + "cat"
+                            + " from bucket name "
+                            + ConfigSelector.BUCKET); // TODO - Add logger
+            return blob;
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 }

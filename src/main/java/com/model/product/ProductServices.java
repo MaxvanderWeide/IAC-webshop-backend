@@ -7,7 +7,6 @@ import com.persistence.storage.StorageGCP;
 import com.persistence.storage.StorageGCPFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductServices implements ProductService {
@@ -24,12 +23,7 @@ public class ProductServices implements ProductService {
 
     @Override
     public List<Product> getProducts() {
-
-        List<Product> products = new ArrayList<>();
-        for (int i = 0; i <= 10; i++) {
-            products.add(new Product(10, "naam", "beschrijving", 5.00, 1));
-        }
-        return products;
+        return getIacDao().getAllProducts();
     }
 
     @Override

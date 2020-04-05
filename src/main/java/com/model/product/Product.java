@@ -1,28 +1,25 @@
 package com.model.product;
 
+import com.model.category.Category;
+
+import java.util.List;
+
 public class Product {
     private int id;
     private String name;
     private String description;
     private double price;
-    private int categoryID;
+    private List<Category> categories;
 
     public Product() {
     }
 
-    public Product(int id, String name, String description, double price) {
+    public Product(int id, String name, String description, double price, List<Category> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-    }
-
-    public Product(int id, String name, String description, double price, int categoryID) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.categoryID = categoryID;
+        this.categories = categories;
     }
 
     public int getId() {
@@ -51,11 +48,8 @@ public class Product {
         return description;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public String toString() {
-        return String.format("id=%s, name=%s, description=%s, price=%s", id, name, description, price);
-    }
 }

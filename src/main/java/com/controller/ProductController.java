@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,16 +30,18 @@ public class ProductController {
         return productService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping()
     public Map<Object, Object> getProducts(HttpServletRequest request) {
         Map<Object, Object> response = new HashMap<>();
 
-        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
-        if (claims == null) {
-            response.put(401, "Not authenticated");
-            return response;
+//        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+//        if (claims == null) {
+//            response.put(401, "Not authenticated");
+//            return response;
+//        }
+        for (Product product : getProductService().getProducts()) {
+            response.put(product.getId(), product);
         }
-        response.put("Product Name", "Product info?");
         return response;
     }
 
@@ -90,8 +93,8 @@ public class ProductController {
         map.put("name", product.getName());
         map.put("description", product.getDescription());
         map.put("price", product.getPrice());
-        map.put("categoriy", product.getCategoryID());
-        map.put("image", Base64.encodeBase64String(blob.getContent()));
+        map.put("categories", product.getCategories());
+        map.put("image", blob != null ? Base64.encodeBase64String(blob.getContent()) : "None found");
 
         return map;
 

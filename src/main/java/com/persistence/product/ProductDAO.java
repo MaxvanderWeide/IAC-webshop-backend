@@ -11,4 +11,6 @@ public interface ProductDAO {
     Product saveProduct(Product product);
 
     List<Product> getProductsWithinCategory(int id);
+
+    List<Product> getAllProducts();
 }

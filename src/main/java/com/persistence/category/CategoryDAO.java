@@ -9,4 +9,5 @@ public interface CategoryDAO {
 
 
     Category getCategoryById(int id);
+    List<Category> getCategoriesByProductId(int id);
 }

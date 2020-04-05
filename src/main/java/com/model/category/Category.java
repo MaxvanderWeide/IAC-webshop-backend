@@ -3,14 +3,16 @@ package com.model.category;
 public class Category {
 
     private int id;
+    private String name;
     private String description;
 
     public Category() {
     }
 
-    public Category(int id, String description) {
+    public Category(int id, String description, String name) {
         this.id = id;
         this.description = description;
+        this.name = name;
     }
 
     public int getId() {
@@ -29,5 +31,8 @@ public class Category {
 
     public String getDescription() {
         return this.description;
+    }
+    public String getName() {
+        return this.name;
     }
 }

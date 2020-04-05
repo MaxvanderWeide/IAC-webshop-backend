@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.google.api.client.util.Base64;
+import com.google.cloud.storage.Blob;
 import com.model.category.Category;
 import com.model.category.CategoryService;
 import com.model.category.CategoryServices;
@@ -46,9 +47,11 @@ public class CategoryController {
         for (Product p : getProductService().getProductsWithinCategory(id)) {
             products.put(p.getName(), String.format("%s/products/%s", ConfigSelector.APIURL, p.getId()));
         }
+        Blob blob = getCategoryService().downloadImage(category);
         map.put("Producten", products);
-        map.put("Image", Base64.encodeBase64String(getCategoryService().downloadImage(category).getContent()));
+        map.put("Image", blob != null ? Base64.encodeBase64String(blob.getContent()) : "None Found");
         map.put("Description", category.getDescription());
+        map.put("Name", category.getName());
         return map;
     }
 }

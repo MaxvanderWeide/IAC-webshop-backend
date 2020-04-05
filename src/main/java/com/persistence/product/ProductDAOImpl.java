@@ -2,10 +2,12 @@ package com.persistence.product;
 
 import com.model.product.Product;
 import com.persistence.BaseDAO;
+import com.persistence.category.CategoryDAOImpl;
 import com.service.ConfigSelector;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProductDAOImpl extends BaseDAO implements ProductDAO {
@@ -26,7 +28,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
                             rs.getString(2),
                             rs.getString(3),
                             rs.getDouble(4),
-                            rs.getInt(5)
+                            new CategoryDAOImpl().getCategoriesByProductId(rs.getInt(1))
                     );
                 }
             }
@@ -117,22 +119,51 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     public List<Product> getProductsWithinCategory(int id) {
         List<Product> products = new ArrayList<>();
 
-        String query = "SELECT `productId`, `name` FROM `product` WHERE `CategoryID` = ?";
+        String query = "SELECT * from product p " +
+                "JOIN product_category pc " +
+                "on p.productID = pc.productID " +
+                "WHERE pc.categoryID = ?";
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    int productId = resultSet.getInt(1);
-                    String name = resultSet.getString(2);
-                    Product newProduct = new Product().setId(productId).setName(name);
-                    products.add(newProduct);
+                    products.add(new Product(
+                            resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getDouble(4),
+                            new CategoryDAOImpl().getCategoriesByProductId(resultSet.getInt(1))
+                    ));
                 }
+                return products;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return products;
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM `product`";
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(new Product(resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getDouble(4),
+                            new CategoryDAOImpl().getCategoriesByProductId(resultSet.getInt(1))));
+                }
+                return products;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 }
