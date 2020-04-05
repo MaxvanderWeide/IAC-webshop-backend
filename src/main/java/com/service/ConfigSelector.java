@@ -2,6 +2,7 @@ package com.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
@@ -29,6 +30,8 @@ public class ConfigSelector {
         Properties appProps = new Properties();
         try (FileInputStream fileInputStream = new FileInputStream(new File("app.properties").getAbsolutePath())) {
             appProps.load(fileInputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
