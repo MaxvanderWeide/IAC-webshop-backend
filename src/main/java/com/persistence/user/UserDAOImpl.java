@@ -1,9 +1,7 @@
 package com.persistence.user;
 
-import com.model.Account;
-import com.model.Address;
-import com.model.Customer;
-import com.model.Order;
+
+import com.model.customer.Customer;
 import com.persistence.BaseDAO;
 import com.service.ConfigSelector;
 
@@ -24,12 +22,12 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
-                    return new Customer(rs.getInt(1),
-                            null,
-                            rs.getString(2) + " " + rs.getString(3),
+                    return new Customer(
+                            rs.getDate(7),
+                            rs.getString(2),
+                            rs.getString(3),
                             rs.getInt(4),
                             rs.getString(5),
-                            null,
                             null);
                 }
             }

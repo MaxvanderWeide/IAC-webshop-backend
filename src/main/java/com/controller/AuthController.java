@@ -1,7 +1,7 @@
 package com.controller;
 
-import com.model.Account;
-import com.model.Customer;
+
+import com.model.customer.Customer;
 import com.persistence.user.UserDAO;
 import com.persistence.user.UserDAOImpl;
 import com.service.ConfigSelector;
@@ -39,7 +39,7 @@ public class AuthController {
                 .setSubject("1")
                 .setIssuer("hu-com-iac")
                 .claim("username", account.getEmail())
-                .claim("name", account.getName())
+                .claim("name", account.getFirstName() + " " + account.getLastName())
                 .signWith(signatureAlgorithm, signingKey);
 
         long expMillis = nowMillis + 3600000;

@@ -1,6 +1,6 @@
 package com.persistence.user;
 
-import com.model.Customer;
+import com.model.customer.Customer;
 
 public interface UserDAO {
 
