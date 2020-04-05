@@ -4,13 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import com.model.product.Product;
 import com.persistence.product.ProductDAO;
+import com.persistence.product.ProductDAOImpl;
 import org.junit.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProductControllerTest {
 
-    @Autowired
-    private ProductDAO productDao;
+    private ProductDAO productDao = new ProductDAOImpl();
 
     @Test
     public void testFindById()
