@@ -98,9 +98,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>home/runner/work/IAC-webshop-backend/IAC-webshop-backend/app.properties</exclude>
-                    </excludes>
                     <source>14</source>
                     <target>14</target>
                 </configuration>
