@@ -67,14 +67,13 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
     public Cart saveProductToCart(Cart cart) {
         boolean checkQuery = checkProductInCart(cart);
         if (checkQuery) {
-            String createQuery = String.format("INSERT INTO `%s`.shopping_cart (shopping_cartID, productID, amount, customerID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
+            String createQuery = String.format("INSERT INTO `%s`.shopping_cart (productID, amount, customerID) VALUE (?, ?, ?);", ConfigSelector.SCHEMA);
 
             try (Connection conn = getConnection();
                  PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
-                preparedStatement.setInt(1, cart.getItemID());
-                preparedStatement.setInt(2, cart.getProductID());
-                preparedStatement.setInt(3, cart.getAmount());
-                preparedStatement.setInt(4, cart.getCustomerID());
+                preparedStatement.setInt(1, cart.getProductID());
+                preparedStatement.setInt(2, cart.getAmount());
+                preparedStatement.setInt(3, cart.getCustomerID());
 
                 preparedStatement.execute();
 
