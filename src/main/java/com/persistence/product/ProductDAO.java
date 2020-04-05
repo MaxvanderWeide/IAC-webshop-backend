@@ -17,6 +17,4 @@ public interface ProductDAO {
     List<Product> getProductsWithinCategory(int id);
 
     List<Product> getAllProducts();
-
-    boolean checkProductStatus(int productID);
 }

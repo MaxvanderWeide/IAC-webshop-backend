@@ -187,20 +187,4 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         }
         return Collections.emptyList();
     }
-
-    @Override
-    public boolean checkProductStatus(int productID) {
-        String checkQuery = String.format("SELECT * FROM `%s`.product WHERE productID = ? AND inactive = 0 ", ConfigSelector.SCHEMA);
-
-        try (Connection conn = getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(checkQuery)) {
-            preparedStatement.setInt(1, productID);
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }

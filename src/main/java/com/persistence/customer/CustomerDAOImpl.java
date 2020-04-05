@@ -52,7 +52,7 @@ public class CustomerDAOImpl extends BaseDAO implements CustomerDAO {
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
 
-            try(ResultSet rs = preparedStatement.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     address = new Address(
                             rs.getString(1),
@@ -60,7 +60,7 @@ public class CustomerDAOImpl extends BaseDAO implements CustomerDAO {
                             rs.getString(3),
                             rs.getString(4),
                             rs.getString(5)
-                            );
+                    );
                 }
             }
 

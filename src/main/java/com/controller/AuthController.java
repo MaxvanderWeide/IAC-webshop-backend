@@ -24,6 +24,11 @@ public class AuthController {
 
     private static String secretKey = ConfigSelector.SECRET_KEY;
 
+    /**
+     * Takes as user's email and returns a JWT token.
+     *
+     * @return JWT token.
+     */
     @PostMapping()
     public ResponseEntity<String> createAuthentication(@RequestParam("user") String email) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -55,6 +60,11 @@ public class AuthController {
         return new ResponseEntity<>(builder.compact(), HttpStatus.OK);
     }
 
+    /**
+     * Takes JWT token and returns the Claims.
+     *
+     * @return claims.
+     */
     public static Claims decodeJWT(String jwt) {
         try {
             return Jwts.parser()

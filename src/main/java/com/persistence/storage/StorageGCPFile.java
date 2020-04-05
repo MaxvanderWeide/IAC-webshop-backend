@@ -51,7 +51,7 @@ public class StorageGCPFile implements StorageGCP {
         Storage storage = StorageOptions.newBuilder().setProjectId(ConfigSelector.PROJECT_ID).build().getService();
 
         try {
-            Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(category.getId()) + "cat"));
+            Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, category.getId() + "cat"));
             System.out.println(
                     "Downloaded object "
                             + category.getId() + "cat"
