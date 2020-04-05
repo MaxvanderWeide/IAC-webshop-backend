@@ -20,7 +20,7 @@ public class ProductControllerTest {
         Assert.assertEquals(5, product.getId());
         Assert.assertEquals("TestProduct", product.getName());
         Assert.assertEquals("Mooi test product", product.getDescription());
-        Assert.assertEquals(30.00, product.getPrice());
+        Assert.assertEquals(30.00, product.getPrice(), 0.001);
     }
 
     @Test
@@ -38,6 +38,6 @@ public class ProductControllerTest {
 
         Assert.assertEquals("TestSaveProduct", newProduct.getName());
         Assert.assertEquals("Dit is een Test", newProduct.getDescription());
-        Assert.assertEquals(10.00, newProduct.getPrice());
+        Assert.assertEquals(10.00, newProduct.getPrice(), 0.001);
     }
 }
