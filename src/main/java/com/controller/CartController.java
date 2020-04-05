@@ -50,13 +50,13 @@ public class CartController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> updateProductFromCart(HttpServletRequest request, @RequestBody CartItem cartItem) {
+    public ResponseEntity<Object> addProductToCard(HttpServletRequest request, @RequestBody CartItem cartItem) {
         Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
         if (claims == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         if (!getCartService().addItemToCart(cartItem.setCustomerID(getCustomerService().getAccountWithEmail(claims.get("username").toString()).getAccount()))) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -72,10 +72,17 @@ public class CartController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-//
-//    @PostMapping("/checkout")
-//    public ResponseEntity<Object> safeOrder() {
-//        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-//    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<Object> checkout(HttpServletRequest request) {
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (!getCartService().checkout(getCustomerService().getAccountWithEmail(claims.get("username").toString()))) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

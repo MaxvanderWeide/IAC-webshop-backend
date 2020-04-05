@@ -26,6 +26,7 @@ public class CustomerDAOImpl extends BaseDAO implements CustomerDAO {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     return new Customer(
+                            rs.getInt(1),
                             rs.getDate(7),
                             rs.getString(2),
                             rs.getString(3),
@@ -82,6 +83,7 @@ public class CustomerDAOImpl extends BaseDAO implements CustomerDAO {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     return new Customer(
+                            rs.getInt(1),
                             rs.getDate(7),
                             rs.getString(2),
                             rs.getString(3),

@@ -25,34 +25,16 @@ public class CartServices implements CartService {
 
     @Override
     public boolean addItemToCart(CartItem cartItem) {
-        if (cartItem.getItemID() == 0) {
-            return false;
-        }
         return getCartDAO().addCartItemToCustomerCart(cartItem);
     }
 
     @Override
     public boolean removeFromCart(CartItem cartItem) {
-        return false;
+        return getCartDAO().removeCartItemFromCustomerCart(cartItem);
     }
 
-//    @Override
-//    public List<CartItem> getShoppingCartsWithId(int id) {
-//        return getCartDAO().getCartsWithId(id);
-//    }
-//
-//    @Override
-//    public boolean updateCart(CartItem cart) {
-//        return getCartDAO().updateCart(cart);
-//    }
-//
-//    @Override
-//    public CartItem addProductToCart(CartItem cart) {
-//        return getCartDAO().saveProductToCart(cart);
-//    }
-//
-//    @Override
-//    public boolean deleteItem(int id) {
-//        return getCartDAO().deleteItem(id);
-//    }
+    @Override
+    public boolean checkout(Customer customer) {
+        return getCartDAO().checkout(customer);
+    }
 }
