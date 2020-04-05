@@ -1,12 +1,23 @@
 package com.persistence.order;
 
 import com.persistence.BaseDAO;
+import com.persistence.product.ProductDAO;
+import com.persistence.product.ProductDAOImpl;
 import com.service.ConfigSelector;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderDAOImpl extends BaseDAO implements OrderDAO {
+    private ProductDAO productDAO;
+
+    private ProductDAO getIacDao() {
+        if (productDAO != null) {
+            return productDAO;
+        }
+        productDAO = new ProductDAOImpl();
+        return productDAO;
+    }
 
     @Override
     public boolean safeOrder(int id) {
@@ -46,15 +57,18 @@ public class OrderDAOImpl extends BaseDAO implements OrderDAO {
 
     public void safeOrders(int orderID, int productID) {
         String safeQuery = String.format("INSERT INTO `%s`.order_products(orderID, productID) VALUES (?, ?)", ConfigSelector.SCHEMA);
+        boolean checkStatus = getIacDao().checkProductStatus(productID);
 
-        try (Connection conn = getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(safeQuery)){
-            preparedStatement.setInt(1, orderID);
-            preparedStatement.setInt(2, productID);
-            preparedStatement.execute();
+        if (checkStatus) {
+            try (Connection conn = getConnection();
+                 PreparedStatement preparedStatement = conn.prepareStatement(safeQuery)) {
+                preparedStatement.setInt(1, orderID);
+                preparedStatement.setInt(2, productID);
+                preparedStatement.execute();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
