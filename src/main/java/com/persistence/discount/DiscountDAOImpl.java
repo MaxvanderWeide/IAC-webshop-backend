@@ -50,7 +50,8 @@ public class DiscountDAOImpl extends BaseDAO implements DiscountDAO {
 
         String query = String.format("SELECT product.name, product.price, discount.*\n" +
                                         "FROM `%s`.discount, `%s`.product\n" +
-                                        "WHERE product.productID = discount.productID;", ConfigSelector.SCHEMA, ConfigSelector.SCHEMA);
+                                        "WHERE product.productID = discount.productID\n" +
+                                        "AND sysdate() BETWEEN discount.`from` AND discount.`to`", ConfigSelector.SCHEMA, ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(query)) {
@@ -63,8 +64,8 @@ public class DiscountDAOImpl extends BaseDAO implements DiscountDAO {
                     information.put("Discount length", "From " + rs.getDate(4) + " until " + rs.getDate(5));
                     information.put("Advertising text", rs.getString(8));
                     map.put(rs.getString(1), information);
-                    return map;
                 }
+                return map;
             }
         } catch (SQLException e) {
             e.printStackTrace();
