@@ -4,25 +4,20 @@ import java.util.Date;
 
 public class Account {
 
+    private int account;
     private Date createdOn;
 
-    public Account(Date createdOn) {
+    public Account(int id, Date createdOn) {
+        this.account = id;
         this.createdOn = createdOn;
     }
-
-
-    public boolean isActive() {
-        return true;
-    }
-
-    //Getters and Setters
 
     public Date getCreatedOn() {
         return createdOn;
     }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public int getAccount() {
+        return account;
     }
+
 }
 

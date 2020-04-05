@@ -1,5 +1,6 @@
 package com.model.cart;
 
+import com.model.customer.Customer;
 import com.persistence.cart.CartDAO;
 import com.persistence.cart.CartDAOImpl;
 
@@ -18,22 +19,27 @@ public class CartServices implements CartService {
     }
 
     @Override
-    public List<Cart> getShoppingCartWithId(int id) {
-        return getCartDAO().getCartWithId(id);
+    public List<CartItem> getCustomerCart(Customer customer) {
+        return getCartDAO().getCartItemsByCustomerId(customer.getAccount());
     }
 
-    @Override
-    public boolean updateCart(Cart cart) {
-        return getCartDAO().updateCart(cart);
-    }
-
-    @Override
-    public Cart addProductToCart(Cart cart) {
-        return getCartDAO().saveProductToCart(cart);
-    }
-
-    @Override
-    public boolean deleteItem(int id) {
-        return getCartDAO().deleteItem(id);
-    }
+//    @Override
+//    public List<CartItem> getShoppingCartsWithId(int id) {
+//        return getCartDAO().getCartsWithId(id);
+//    }
+//
+//    @Override
+//    public boolean updateCart(CartItem cart) {
+//        return getCartDAO().updateCart(cart);
+//    }
+//
+//    @Override
+//    public CartItem addProductToCart(CartItem cart) {
+//        return getCartDAO().saveProductToCart(cart);
+//    }
+//
+//    @Override
+//    public boolean deleteItem(int id) {
+//        return getCartDAO().deleteItem(id);
+//    }
 }

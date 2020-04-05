@@ -1,15 +1,19 @@
 package com.model.cart;
 
+import com.model.customer.Customer;
+
 import java.util.List;
 
 public interface CartService {
 
-    Cart addProductToCart(Cart cart);
+//    CartItem addProductToCart(CartItem cart);
+//
+//    List<CartItem> getShoppingCartsWithId(int id);
+//
+//    boolean updateCart(CartItem cart);
+//
+//    boolean deleteItem(int id);
 
-    List<Cart> getShoppingCartWithId(int id);
-
-    boolean updateCart(Cart cart);
-
-    boolean deleteItem(int id);
+    List<CartItem> getCustomerCart(Customer customer);
 
 }
