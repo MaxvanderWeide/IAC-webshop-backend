@@ -23,6 +23,11 @@ public class CartServices implements CartService {
         return getCartDAO().getCartItemsByCustomerId(customer.getAccount());
     }
 
+    @Override
+    public boolean addItemToCart(CartItem cartItem) {
+        return getCartDAO().addCartItemToCustomerCart(cartItem);
+    }
+
 //    @Override
 //    public List<CartItem> getShoppingCartsWithId(int id) {
 //        return getCartDAO().getCartsWithId(id);

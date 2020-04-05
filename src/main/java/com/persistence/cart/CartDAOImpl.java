@@ -39,6 +39,23 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public boolean addCartItemToCustomerCart(CartItem cartItem) {
+        String createQuery = String.format("INSERT INTO `%s`.customer_products (productID, amount, customerID) VALUE (?, ?, ?);", ConfigSelector.SCHEMA);
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
+            preparedStatement.setInt(1, cartItem.getProductID());
+            preparedStatement.setInt(2, cartItem.getAmount());
+            preparedStatement.setInt(3, cartItem.getCustomerID());
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 //    private ProductDAO productDAO;
 //
 //    private ProductDAO getIacDao() {

@@ -43,27 +43,23 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         List<CartItem> cartItemList = getCartService().getCustomerCart(getCustomerService().getAccountWithEmail(claims.get("username").toString()));
+        if (cartItemList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(cartItemList, HttpStatus.OK);
     }
 
-//    @PostMapping()
-//    public ResponseEntity<Object> addProductToCart(@RequestBody CartItem cart) {
-//        CartItem cart1 = getCartService().addProductToCart(cart);
-//        if (cart1 == null) {
-//            return new ResponseEntity<>("No CartItem Found", HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>(cart, HttpStatus.OK);
-//    }
-//
-//    @PutMapping()
-//    public ResponseEntity<Object> updateProductFromCart(@RequestBody CartItem cart) {
-//        boolean update = getCartService().updateCart(cart);
-//        if (!update) {
-//            return new ResponseEntity<>("Could Not Update", HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>("Updated", HttpStatus.OK);
-//    }
-//
+    @PostMapping()
+    public ResponseEntity<Object> updateProductFromCart(HttpServletRequest request, @RequestBody CartItem cartItem) {
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (!getCartService().addItemToCart(cartItem.setCustomerID(getCustomerService().getAccountWithEmail(claims.get("username").toString()).getAccount()))) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 //    @DeleteMapping()
 //    public ResponseEntity<Object> deleteProductFromCart() {
 //        boolean delete = getCartService().deleteItem(id);

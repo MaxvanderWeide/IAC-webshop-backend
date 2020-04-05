@@ -7,6 +7,7 @@ import java.util.List;
 public interface CartDAO {
 
     List<CartItem> getCartItemsByCustomerId(int id);
+    boolean addCartItemToCustomerCart(CartItem cartItem);
 
 //    CartItem getCartWithId(int id);
 //
