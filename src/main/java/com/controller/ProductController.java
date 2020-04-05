@@ -54,7 +54,6 @@ public class ProductController {
     @PostMapping()
     public Map<Object, Object> createProduct(HttpServletRequest request, @RequestBody Product product) {
         Map<Object, Object> response = new HashMap<>();
-        System.out.println(product);
 
         Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
         if (claims == null) {
@@ -85,21 +84,14 @@ public class ProductController {
         return response;
     }
 
-    @GetMapping("/{id}/images")
-    public String downloadImageUsingProduct(HttpServletRequest request,
-                                          @PathVariable int id) {
-        Product product = getProductService().getProductWithId(id);
-        Blob blob = getProductService().downloadImage(product);
-        return Base64.encodeBase64String(blob.getContent());
-    }
-
     @GetMapping("/{id}")
     public Map<String, Object> getProductWithId(@PathVariable int id) {
         Product product = getProductService().getProductWithId(id);
         HashMap<String, Object> map = new HashMap<>();
+        Blob blob = getProductService().downloadImage(product);
 
         if (product == null) {
-            map.put("message", "werkt niet broer");
+            map.put("message", "Product couldn't be found");
             return map;
         }
 
@@ -108,6 +100,7 @@ public class ProductController {
         map.put("description", product.getDescription());
         map.put("price", product.getPrice());
         map.put("categoriy", product.getCategoryID());
+        map.put("image", Base64.encodeBase64String(blob.getContent()));
 
         return map;
 
