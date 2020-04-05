@@ -1,4 +1,4 @@
-package com.controller;
+package com.iacweb.iacweb.controller;
 
 import com.model.discount.Discount;
 import com.persistence.discount.DiscountDAO;

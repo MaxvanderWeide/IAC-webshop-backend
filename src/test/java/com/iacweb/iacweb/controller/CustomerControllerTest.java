@@ -1,4 +1,4 @@
-package com.controller;
+package com.iacweb.iacweb.controller;
 
 import com.model.Address;
 import com.model.customer.Customer;

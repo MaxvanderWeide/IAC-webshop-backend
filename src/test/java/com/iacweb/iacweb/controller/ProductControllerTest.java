@@ -1,4 +1,4 @@
-package com.controller;
+package com.iacweb.iacweb.controller;
 
 import static org.junit.Assert.assertEquals;
 
