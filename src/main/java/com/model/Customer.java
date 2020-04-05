@@ -10,7 +10,7 @@ public class Customer extends Account {
     private List<Order> orders;
     private Address address;
 
-    public Customer(String account, Date createdOn, String name, int phone, String email, List<Order> orders, Address address) {
+    public Customer(int account, Date createdOn, String name, int phone, String email, List<Order> orders, Address address) {
         super(account, createdOn);
         this.name = name;
         this.phone = phone;

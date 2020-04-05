@@ -3,10 +3,10 @@ package com.model;
 import java.util.Date;
 
 public class Account {
-    private String accountName;
+    private int accountName;
     private Date createdOn;
 
-    public Account(String accountName, Date createdOn) {
+    public Account(int accountName, Date createdOn) {
         this.accountName = accountName;
         this.createdOn = createdOn;
     }
@@ -17,11 +17,11 @@ public class Account {
 
     //Getters and Setters
     //Account
-    public String getAccount() {
+    public int getAccount() {
         return accountName;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(int account) {
         this.accountName = account;
     }
 

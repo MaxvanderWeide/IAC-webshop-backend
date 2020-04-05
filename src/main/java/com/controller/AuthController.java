@@ -1,14 +1,15 @@
 package com.controller;
 
+import com.model.Account;
+import com.model.Customer;
+import com.persistence.user.UserDAO;
+import com.persistence.user.UserDAOImpl;
 import com.service.ConfigSelector;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -22,7 +23,7 @@ public class AuthController {
     private static String secretKey = ConfigSelector.SECRET_KEY;
 
     @PostMapping()
-    public String createAuthentication(@RequestBody String user) {
+    public String createAuthentication(@RequestParam("user") String email) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         long nowMillis = System.currentTimeMillis();
@@ -30,12 +31,15 @@ public class AuthController {
 
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
+        UserDAO userDAO = new UserDAOImpl();
+        Customer account = userDAO.getAccountWithEmail(email);
+        System.out.println(account);
         JwtBuilder builder = Jwts.builder()
                 .setIssuedAt(now)
                 .setSubject("1")
                 .setIssuer("hu-com-iac")
-                .claim("username", user)
+                .claim("username", account.getEmail())
+                .claim("name", account.getName())
                 .signWith(signatureAlgorithm, signingKey);
 
         long expMillis = nowMillis + 3600000;
