@@ -16,4 +16,6 @@ public interface ProductService {
     boolean uploadImage(Product product, MultipartFile file);
 
     Blob downloadImage(Product product);
+
+    List<Product> getProductsWithinCategory(int id);
 }

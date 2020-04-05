@@ -19,7 +19,7 @@ public class CategoryServices implements CategoryService {
     }
 
     @Override
-    public List<Product> getProductsWithinCategory(int id) {
-        return getCategoryDAO().getProductsWithinCategory(id);
+    public Category getCategoryWithId(int id) {
+        return getCategoryDAO().getCategoryById(id);
     }
 }

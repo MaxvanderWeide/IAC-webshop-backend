@@ -5,6 +5,8 @@ import com.persistence.BaseDAO;
 import com.service.ConfigSelector;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDAOImpl extends BaseDAO implements ProductDAO {
 
@@ -62,6 +64,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     }
 
     public int getCategoryIDByName(String name) {
+        // TODO - Move this to CategoryDAO
         String getQuery = String.format("SELECT categoryID FROM `%s`.category WHERE name = ?", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
@@ -101,5 +104,28 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         }
 
         return 0;
+    }
+
+    @Override
+    public List<Product> getProductsWithinCategory(int id) {
+        List<Product> products = new ArrayList<>();
+
+        String query = "SELECT `productId`, `name` FROM `product` WHERE `CategoryID` = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int productId = resultSet.getInt(1);
+                    String name = resultSet.getString(2);
+                    Product newProduct = new Product().setId(productId).setName(name);
+                    products.add(newProduct);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
     }
 }

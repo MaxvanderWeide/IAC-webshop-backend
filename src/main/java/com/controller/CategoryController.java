@@ -1,14 +1,15 @@
 package com.controller;
 
+import com.model.category.Category;
 import com.model.category.CategoryService;
 import com.model.category.CategoryServices;
 import com.model.product.Product;
+import com.model.product.ProductService;
+import com.model.product.ProductServices;
 import com.service.ConfigSelector;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -17,6 +18,7 @@ import java.util.Map;
 public class CategoryController {
 
     private CategoryService categoryService;
+    private ProductService productService;
 
     private CategoryService getCategoryService() {
         if (categoryService != null) {
@@ -26,21 +28,25 @@ public class CategoryController {
         return categoryService;
     }
 
-    @GetMapping()
-    public List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
-        categories.add("Category");
-        categories.add("Category");
-        categories.add("Category");
-        return categories;
+    private ProductService getProductService() {
+        if (productService != null) {
+            return productService;
+        }
+        productService = new ProductServices();
+        return productService;
     }
 
+
     @GetMapping("/{id}")
-    public Map getCategoriesWithId(@PathVariable int id) {
+    public Map getCategoryWithId(@PathVariable int id) {
         Map<String, Object> map = new HashMap<>();
-        for (Product p : getCategoryService().getProductsWithinCategory(id)) {
-            map.put(p.getName(), String.format("%s/products/%s", ConfigSelector.APIURL, p.getId()));
+        Map<String, Object> products = new HashMap<>();
+        Category category = getCategoryService().getCategoryWithId(id);
+        for (Product p : getProductService().getProductsWithinCategory(id)) {
+            products.put(p.getName(), String.format("%s/products/%s", ConfigSelector.APIURL, p.getId()));
         }
+        map.put("Producten", products);
+        map.put("Description", category.getDescription());
         return map;
     }
 }

@@ -53,4 +53,9 @@ public class ProductServices implements ProductService {
         StorageGCP storageGCP = new StorageGCPFile();
         return storageGCP.downloadFile(product.getId());
     }
+
+    @Override
+    public List<Product> getProductsWithinCategory(int id) {
+        return getIacDao().getProductsWithinCategory(id);
+    }
 }
