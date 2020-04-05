@@ -32,8 +32,6 @@ public class CartController {
     }
 
 
-    // Down below is the shopping_cart CRUD statements made with the database. Done for 50%, now only need Update and Delete.
-
     @GetMapping("/{id}")
     public Map<Object, Object> getShoppingCartWithId(@PathVariable int id) {
         Map<Object, Object> response = new HashMap<>();
@@ -44,7 +42,7 @@ public class CartController {
             return response;
         }
 
-        response.put("Shopping cart from customer", cart);
+        response.put(200, cart);
         return response;
     }
 
@@ -54,10 +52,39 @@ public class CartController {
         Cart cart1 = getCartService().addProductToCart(cart);
 
         if (cart1 == null) {
-            response.put(400, "Product kon niet toegevoegd worden aan cart");
+            response.put(400, "Product could not get added");
             return response;
         }
-        response.put("Toegevoegd aan winkelmand: ", cart);
+        response.put(200, cart);
+        return response;
+    }
+
+    @PutMapping()
+    public Map<Object, Object> updateProductFromCart(@RequestBody Cart cart) {
+        Map<Object, Object> response = new HashMap<>();
+
+        boolean update = getCartService().updateCart(cart);
+
+        if (!update) {
+            response.put(400, "Shopping cart failed to be updated");
+            return response;
+        }
+
+        response.put(200, "Shopping cart updated");
+        return response;
+    }
+
+    @DeleteMapping("/{id}")
+    public Map<Object, Object> deleteProductFromCart(@PathVariable int id) {
+        Map<Object, Object> response = new HashMap<>();
+
+        boolean delete = getCartService().deleteItem(id);
+        if (!delete) {
+            response.put(400, "Could not delete item");
+            return response;
+        }
+
+        response.put(200, "Item deleted");
         return response;
     }
 

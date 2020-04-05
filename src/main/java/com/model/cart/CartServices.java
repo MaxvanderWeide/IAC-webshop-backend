@@ -20,5 +20,11 @@ public class CartServices implements CartService {
     public List<Cart> getShoppingCartWithId(int id) { return getCartDAO().getCartWithId(id); }
 
     @Override
+    public boolean updateCart(Cart cart) { return getCartDAO().updateCart(cart); }
+
+    @Override
     public Cart addProductToCart(Cart cart) { return getCartDAO().saveProductToCart(cart); }
+
+    @Override
+    public boolean deleteItem(int id) { return getCartDAO().deleteItem(id); }
 }
