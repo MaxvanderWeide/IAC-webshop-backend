@@ -49,7 +49,23 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
             preparedStatement.setInt(1, cartItem.getProductID());
             preparedStatement.setInt(2, cartItem.getAmount());
             preparedStatement.setInt(3, cartItem.getCustomerID());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeCartItemFromCustomerCart(CartItem cartItem) {
+        String createQuery = String.format("DELETE FROM `%s`.customer_products WHERE customer_productsID = ? AND customerID = ?", ConfigSelector.SCHEMA);
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
+            preparedStatement.setInt(1, cartItem.getItemID());
+            preparedStatement.setInt(2, cartItem.getCustomerID());
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

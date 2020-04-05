@@ -29,4 +29,8 @@ public class CartItem {
         this.customerID = customerID;
         return this;
     }
+
+    public int getItemID() {
+        return this.itemID;
+    }
 }

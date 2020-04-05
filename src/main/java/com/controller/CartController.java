@@ -60,14 +60,18 @@ public class CartController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-//    @DeleteMapping()
-//    public ResponseEntity<Object> deleteProductFromCart() {
-//        boolean delete = getCartService().deleteItem(id);
-//        if (!delete) {
-//            return new ResponseEntity<>("Could Not Delete", HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>("Deleted", HttpStatus.OK);
-//    }
+
+    @DeleteMapping()
+    public ResponseEntity<Object> deleteProductFromCart(HttpServletRequest request, @RequestBody CartItem cartItem) {
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (!getCartService().removeFromCart(cartItem.setCustomerID(getCustomerService().getAccountWithEmail(claims.get("username").toString()).getAccount()))) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 //
 //    @PostMapping("/checkout")
 //    public ResponseEntity<Object> safeOrder() {

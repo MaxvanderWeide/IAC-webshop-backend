@@ -8,6 +8,7 @@ public interface CartDAO {
 
     List<CartItem> getCartItemsByCustomerId(int id);
     boolean addCartItemToCustomerCart(CartItem cartItem);
+    boolean removeCartItemFromCustomerCart(CartItem cartItem);
 
 //    CartItem getCartWithId(int id);
 //

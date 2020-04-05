@@ -25,7 +25,15 @@ public class CartServices implements CartService {
 
     @Override
     public boolean addItemToCart(CartItem cartItem) {
+        if (cartItem.getItemID() == 0) {
+            return false;
+        }
         return getCartDAO().addCartItemToCustomerCart(cartItem);
+    }
+
+    @Override
+    public boolean removeFromCart(CartItem cartItem) {
+        return false;
     }
 
 //    @Override

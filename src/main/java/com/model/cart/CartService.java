@@ -16,5 +16,6 @@ public interface CartService {
 
     List<CartItem> getCustomerCart(Customer customer);
     boolean addItemToCart(CartItem cartItem);
+    boolean removeFromCart(CartItem cartItem);
 
 }
