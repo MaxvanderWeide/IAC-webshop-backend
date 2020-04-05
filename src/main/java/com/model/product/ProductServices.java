@@ -1,7 +1,11 @@
 package com.model.product;
 
+import com.google.cloud.storage.Blob;
 import com.persistence.product.ProductDAO;
 import com.persistence.product.ProductDAOImpl;
+import com.persistence.storage.StorageGCP;
+import com.persistence.storage.StorageGCPFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +37,17 @@ public class ProductServices implements ProductService {
     @Override
     public Product createProduct(Product product) {
         return getIacDao().saveProduct(product);
+    }
+
+    @Override
+    public boolean uploadImage(Product product, MultipartFile file) {
+        StorageGCP storageGCP = new StorageGCPFile();
+        return storageGCP.uploadFile(file, product.getId());
+    }
+
+    @Override
+    public Blob downloadImage(Product product) {
+        StorageGCP storageGCP = new StorageGCPFile();
+        return storageGCP.downloadFile(product.getId());
     }
 }

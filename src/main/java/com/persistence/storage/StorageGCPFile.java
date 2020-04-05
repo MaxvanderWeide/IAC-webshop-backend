@@ -1,32 +1,42 @@
 package com.persistence.storage;
 
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import com.service.ConfigSelector;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
 
 public class StorageGCPFile implements StorageGCP {
 
     @Override
-    public String uploadFile(MultipartFile file) {
-        String name = new Date().toString();
+    public boolean uploadFile(MultipartFile file, int id) {
+
         Storage storage = StorageOptions.newBuilder().setProjectId(ConfigSelector.PROJECT_ID).build().getService();
-        BlobId blobId = BlobId.of(ConfigSelector.BUCKET, name);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        BlobId blobId = BlobId.of(ConfigSelector.BUCKET, String.valueOf(id));
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
         try {
             storage.create(blobInfo, file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
 
         System.out.println(
-                "File " + name + " uploaded to bucket " + ConfigSelector.BUCKET);
-        return "";
+                "File " + id + " uploaded to bucket " + ConfigSelector.BUCKET); // TODO - Add logger
+        return true;
+    }
+
+    @Override
+    public Blob downloadFile(int id) {
+        Storage storage = StorageOptions.newBuilder().setProjectId(ConfigSelector.PROJECT_ID).build().getService();
+
+        Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(id)));
+
+        System.out.println(
+                "Downloaded object "
+                        + id
+                        + " from bucket name "
+                        + ConfigSelector.BUCKET); // TODO - Add logger
+        return blob;
     }
 }

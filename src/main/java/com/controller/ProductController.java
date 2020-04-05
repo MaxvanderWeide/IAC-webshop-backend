@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.google.api.client.util.Base64;
+import com.google.cloud.storage.Blob;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
@@ -74,9 +76,21 @@ public class ProductController {
                                                        @PathVariable int id) {
         Map<Object, Object> response = new HashMap<>();
         Product product = getProductService().getProductWithId(id);
-//        getStorageGCP().uploadFile(file);
-        response.put(405, "Load balancing does not allow this to happen right now.");
+
+        if (getProductService().uploadImage(product, file)) {
+            response.put("Image added", product);
+            return response;
+        }
+        response.put(400, "Image couldn't be added");
         return response;
+    }
+
+    @GetMapping("/{id}/images")
+    public String downloadImageUsingProduct(HttpServletRequest request,
+                                          @PathVariable int id) {
+        Product product = getProductService().getProductWithId(id);
+        Blob blob = getProductService().downloadImage(product);
+        return Base64.encodeBase64String(blob.getContent());
     }
 
     @GetMapping("/{id}")

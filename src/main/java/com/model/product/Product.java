@@ -6,7 +6,6 @@ public class Product {
     private String description;
     private double price;
     private int categoryID;
-    private String image;
 
     public Product() {
     }
@@ -50,16 +49,7 @@ public class Product {
         return categoryID;
     }
 
-    public Product setImage(String image) {
-        this.image = image;
-        return this;
-    }
-
-    public String getImage() {
-        return this.image;
-    }
-
     public String toString() {
-        return String.format("id=%s, name=%s, description=%s, price=%s, image=%s", id, name, description, price, image);
+        return String.format("id=%s, name=%s, description=%s, price=%s, image=%s", id, name, description, price);
     }
 }
