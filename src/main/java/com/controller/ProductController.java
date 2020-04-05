@@ -62,11 +62,12 @@ public class ProductController {
     public Map<Object, Object> createProduct(HttpServletRequest request, @RequestBody Product product) {
         Map<Object, Object> response = new HashMap<>();
 
-        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
-        if (claims == null) {
-            response.put(401, "Not authenticated");
-            return response;
-        }
+//        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+//        if (claims == null) {
+//            response.put(401, "Not authenticated");
+//            return response;
+//        }
+
         Product product1 = getProductService().createProduct(product);
         if (product1 == null) {
             response.put(400, "Product kon niet gemaakt worden");

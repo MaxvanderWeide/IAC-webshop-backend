@@ -66,6 +66,11 @@ public class Product {
         return this;
     }
 
+    public Product setCategoryIdList(List<Integer> categories) {
+        this.categoryIdList = categories;
+        return this;
+    }
+
     public List<Integer> getCategoryIdList() {
         return categoryIdList;
     }
