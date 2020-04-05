@@ -43,13 +43,8 @@ public class ProductController {
     }
 
     @GetMapping()
-    public Map<Object, Object> getProducts(HttpServletRequest request) {
+    public Map<Object, Object> getProducts() {
         Map<Object, Object> response = new HashMap<>();
-//        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
-//        if (claims == null) {
-//            response.put(401, "Not authenticated");
-//            return response;
-//        }
         for (Product product : getProductService().getProducts()) {
             response.put(product.getName(), product);
         }
@@ -60,11 +55,11 @@ public class ProductController {
     public Map<Object, Object> createProduct(HttpServletRequest request, @RequestBody Product product) {
         Map<Object, Object> response = new HashMap<>();
 
-//        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
-//        if (claims == null) {
-//            response.put(401, "Not authenticated");
-//            return response;
-//        }
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            response.put(401, "Not authenticated");
+            return response;
+        }
 
         Product product1 = getProductService().createProduct(product);
         if (product1 == null) {
@@ -77,11 +72,20 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public boolean deleteProduct(HttpServletRequest request, @PathVariable int id) {
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            return false; // Deny service
+        }
         return getProductService().deleteProductById(id);
     }
 
     @PutMapping("/{id}")
     public Product deleteProduct(HttpServletRequest request, @PathVariable int id, @RequestBody Product product) {
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            return null; // Deny service
+        }
+
         if (id != product.getId()) {
             return null;
         }
@@ -97,6 +101,11 @@ public class ProductController {
     public Map<Object, Object> createImageUsingProduct(HttpServletRequest request,
                                                        @RequestParam("file") MultipartFile file,
                                                        @PathVariable int id) {
+        Claims claims = AuthController.decodeJWT(request.getHeader("authorization"));
+        if (claims == null) {
+            return null; // Deny service
+        }
+
         Map<Object, Object> response = new HashMap<>();
         Product product = getProductService().getProductWithId(id);
 
