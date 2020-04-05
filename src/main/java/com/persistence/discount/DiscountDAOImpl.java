@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 
 public class DiscountDAOImpl extends BaseDAO implements DiscountDAO {
 
@@ -39,6 +41,35 @@ public class DiscountDAOImpl extends BaseDAO implements DiscountDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public HashMap<Object, Object> getAllDiscounts() {
+        HashMap<Object, Object> map = new HashMap<>();
+
+        String query = String.format("SELECT product.name, product.price, discount.*\n" +
+                                        "FROM `%s`.discount, `%s`.product\n" +
+                                        "WHERE product.productID = discount.productID;", ConfigSelector.SCHEMA, ConfigSelector.SCHEMA);
+
+        try (Connection conn = getConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+
+            try(ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    HashMap<String, Object> information = new HashMap<>();
+                    information.put("Product price", rs.getDouble(2));
+                    information.put("Discount price", rs.getDouble(6));
+                    information.put("Discount length", "From " + rs.getDate(4) + " until " + rs.getDate(5));
+                    information.put("Advertising text", rs.getString(8));
+                    map.put(rs.getString(1), information);
+                    return map;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 

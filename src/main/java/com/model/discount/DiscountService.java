@@ -1,12 +1,11 @@
-package com.persistence.discount;
-
-import com.model.discount.Discount;
+package com.model.discount;
 
 import java.util.HashMap;
 import java.util.List;
 
-public interface DiscountDAO {
+public interface DiscountService {
 
     Discount getDiscountWithId(int id);
     HashMap<Object, Object> getAllDiscounts();
+
 }
