@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.google.api.client.util.Base64;
 import com.model.category.Category;
 import com.model.category.CategoryService;
 import com.model.category.CategoryServices;
@@ -46,6 +47,7 @@ public class CategoryController {
             products.put(p.getName(), String.format("%s/products/%s", ConfigSelector.APIURL, p.getId()));
         }
         map.put("Producten", products);
+        map.put("Image", Base64.encodeBase64String(getCategoryService().downloadImage(category).getContent()));
         map.put("Description", category.getDescription());
         return map;
     }

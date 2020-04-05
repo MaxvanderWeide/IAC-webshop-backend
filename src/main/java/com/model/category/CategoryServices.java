@@ -1,10 +1,11 @@
 package com.model.category;
 
-import com.model.product.Product;
+import com.google.cloud.storage.Blob;
 import com.persistence.category.CategoryDAO;
 import com.persistence.category.CategoryDAOImpl;
+import com.persistence.storage.StorageGCP;
+import com.persistence.storage.StorageGCPFile;
 
-import java.util.List;
 
 public class CategoryServices implements CategoryService {
 
@@ -21,5 +22,11 @@ public class CategoryServices implements CategoryService {
     @Override
     public Category getCategoryWithId(int id) {
         return getCategoryDAO().getCategoryById(id);
+    }
+
+    @Override
+    public Blob downloadImage(Category category) {
+        StorageGCP storageGCP = new StorageGCPFile();
+        return storageGCP.downloadFile(category);
     }
 }

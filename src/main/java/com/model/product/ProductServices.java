@@ -51,7 +51,7 @@ public class ProductServices implements ProductService {
     @Override
     public Blob downloadImage(Product product) {
         StorageGCP storageGCP = new StorageGCPFile();
-        return storageGCP.downloadFile(product.getId());
+        return storageGCP.downloadFile(product);
     }
 
     @Override

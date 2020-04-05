@@ -1,6 +1,8 @@
 package com.persistence.storage;
 
 import com.google.cloud.storage.*;
+import com.model.category.Category;
+import com.model.product.Product;
 import com.service.ConfigSelector;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,14 +29,28 @@ public class StorageGCPFile implements StorageGCP {
     }
 
     @Override
-    public Blob downloadFile(int id) {
+    public Blob downloadFile(Product product) {
         Storage storage = StorageOptions.newBuilder().setProjectId(ConfigSelector.PROJECT_ID).build().getService();
 
-        Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(id)));
+        Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(product.getId())));
 
         System.out.println(
                 "Downloaded object "
-                        + id
+                        + product.getId()
+                        + " from bucket name "
+                        + ConfigSelector.BUCKET); // TODO - Add logger
+        return blob;
+    }
+
+    @Override
+    public Blob downloadFile(Category category) {
+        Storage storage = StorageOptions.newBuilder().setProjectId(ConfigSelector.PROJECT_ID).build().getService();
+
+        Blob blob = storage.get(BlobId.of(ConfigSelector.BUCKET, String.valueOf(category.getId()) + "cat"));
+
+        System.out.println(
+                "Downloaded object "
+                        + category.getId() + "cat"
                         + " from bucket name "
                         + ConfigSelector.BUCKET); // TODO - Add logger
         return blob;
