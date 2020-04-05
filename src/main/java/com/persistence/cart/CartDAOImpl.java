@@ -42,22 +42,87 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
     }
 
     @Override
-    public Cart saveProductToCart(Cart cart) {
-        String createQuery = String.format("INSERT INTO `%s`.shopping_cart (shopping_cartID, productID, amount, customerID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
+    public boolean checkProductInCart(Cart cart) {
+        ResultSet rs;
+        String checkQuery = String.format("SELECT * FROM `%s`.shopping_cart WHERE customerID = ? AND productID = ?;", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
-            preparedStatement.setInt(1, cart.getItemID());
+             PreparedStatement preparedStatement = conn.prepareStatement(checkQuery)) {
+            preparedStatement.setInt(1, cart.getCustomerID());
             preparedStatement.setInt(2, cart.getProductID());
-            preparedStatement.setInt(3, cart.getAmount());
-            preparedStatement.setInt(4, cart.getCustomerID());
 
-            preparedStatement.execute();
+            rs = preparedStatement.executeQuery();
 
-            return cart;
+            return !rs.next();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return false;
+    }
+
+    @Override
+    public Cart saveProductToCart(Cart cart) {
+        boolean checkQuery = checkProductInCart(cart);
+            if(checkQuery) {
+                String createQuery = String.format("INSERT INTO `%s`.shopping_cart (shopping_cartID, productID, amount, customerID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
+
+                try (Connection conn = getConnection();
+                     PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
+                    preparedStatement.setInt(1, cart.getItemID());
+                    preparedStatement.setInt(2, cart.getProductID());
+                    preparedStatement.setInt(3, cart.getAmount());
+                    preparedStatement.setInt(4, cart.getCustomerID());
+
+                    preparedStatement.execute();
+
+                    return cart;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            } else {
+                updateCart(cart);
+            }
+            return cart;
+    }
+
+    @Override
+    public boolean updateCart(Cart cart) {
+        String updateQuery = String.format("UPDATE `%s`.shopping_cart SET amount = ? WHERE productID = ? AND customerID = ?", ConfigSelector.SCHEMA);
+
+        try(Connection conn = getConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+            preparedStatement.setInt(1, cart.getAmount());
+            preparedStatement.setInt(2, cart.getProductID());
+            preparedStatement.setInt(3, cart.getCustomerID());
+
+            preparedStatement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean deleteItem(int id) {
+        String updateQuery = String.format("DELETE FROM `%s`.shopping_cart WHERE shopping_cartID = ?", ConfigSelector.SCHEMA);
+
+        try(Connection conn = getConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
