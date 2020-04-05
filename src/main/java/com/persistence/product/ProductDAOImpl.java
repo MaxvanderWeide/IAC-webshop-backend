@@ -1,5 +1,6 @@
 package com.persistence.product;
 
+import com.model.category.Category;
 import com.model.product.Product;
 import com.persistence.BaseDAO;
 import com.persistence.category.CategoryDAOImpl;
@@ -87,7 +88,52 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         return false;
     }
 
-    public int getCategoryIDByName(String name) {
+    @Override
+    public Product updateProduct(Product product) {
+        String query = String.format("UPDATE `%s`.product SET `name`=?, `description`=?, `price`=? WHERE productID = ? AND inactive = 0", ConfigSelector.SCHEMA);
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setString(2, product.getDescription());
+            preparedStatement.setDouble(3, product.getPrice());
+            preparedStatement.setInt(4, product.getId());
+            preparedStatement.executeUpdate();
+            if (updateProductCategories(product)) {
+                return product;
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private boolean updateProductCategories(Product product) {
+        String deleteQuery = String.format("DELETE FROM `%s`.product_category WHERE productID = ?", ConfigSelector.SCHEMA);
+        String insertQuery = String.format("INSERT INTO `%s`.product_category (productID, categoryID) VALUES (?, ?)", ConfigSelector.SCHEMA);
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(deleteQuery)) {
+            preparedStatement.setInt(1, product.getId());
+            preparedStatement.executeUpdate();
+            for (Category category : product.getCategories()) {
+                try (PreparedStatement stat = conn.prepareStatement(insertQuery)) {
+                    stat.setInt(1, product.getId());
+                    stat.setInt(2, category.getId());
+                    stat.execute();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private int getCategoryIDByName(String name) {
         // TODO - Move this to CategoryDAO
         String getQuery = String.format("SELECT categoryID FROM `%s`.category WHERE name = ?", ConfigSelector.SCHEMA);
 
@@ -108,7 +154,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         return 0;
     }
 
-    public int createCategoryWithName(String name) {
+    private int createCategoryWithName(String name) {
         String createQuery = String.format("INSERT INTO `%s`.category (name) VALUE (?);", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();

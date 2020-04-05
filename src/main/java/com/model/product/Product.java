@@ -10,6 +10,7 @@ public class Product {
     private String description;
     private double price;
     private List<Category> categories;
+    private List<Integer> categoryIdList;
 
     public Product() {
     }
@@ -58,6 +59,15 @@ public class Product {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public Product setCategories(List<Category> categories) {
+        this.categories = categories;
+        return this;
+    }
+
+    public List<Integer> getCategoryIdList() {
+        return categoryIdList;
     }
 
 }

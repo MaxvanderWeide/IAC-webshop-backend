@@ -15,6 +15,8 @@ public interface ProductService {
 
     boolean deleteProductById(int id);
 
+    Product updateProduct(Product product);
+
     boolean uploadImage(Product product, MultipartFile file);
 
     Blob downloadImage(Product product);

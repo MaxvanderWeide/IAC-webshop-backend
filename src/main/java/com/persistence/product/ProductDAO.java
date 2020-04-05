@@ -12,6 +12,8 @@ public interface ProductDAO {
 
     boolean deleteProductById(int id);
 
+    Product updateProduct(Product product);
+
     List<Product> getProductsWithinCategory(int id);
 
     List<Product> getAllProducts();

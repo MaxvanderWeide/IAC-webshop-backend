@@ -3,6 +3,8 @@ package com.controller;
 import com.google.api.client.util.Base64;
 import com.google.cloud.storage.Blob;
 import com.model.category.Category;
+import com.model.category.CategoryService;
+import com.model.category.CategoryServices;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,7 @@ import java.util.Map;
 public class ProductController {
 
     private ProductService productService;
+    private CategoryService categoryService;
 
     private ProductService getProductService() {
         if (productService != null) {
@@ -29,6 +33,14 @@ public class ProductController {
         }
         productService = new ProductServices();
         return productService;
+    }
+
+    private CategoryService getCategoryService() {
+        if (categoryService != null) {
+            return categoryService;
+        }
+        categoryService = new CategoryServices();
+        return categoryService;
     }
 
     @GetMapping()
@@ -67,6 +79,19 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public boolean deleteProduct(HttpServletRequest request, @PathVariable int id) {
         return getProductService().deleteProductById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Product deleteProduct(HttpServletRequest request, @PathVariable int id, @RequestBody Product product) {
+        if (id != product.getId()) {
+            return null;
+        }
+        List<Category> categories = new ArrayList<>();
+        for (int categoryId : product.getCategoryIdList()) {
+            categories.add(getCategoryService().getCategoryWithId(categoryId));
+        }
+        product.setCategories(categories);
+        return getProductService().updateProduct(product);
     }
 
     @PostMapping("/{id}/images")
