@@ -10,6 +10,8 @@ public interface ProductDAO {
 
     Product saveProduct(Product product);
 
+    boolean deleteProductById(int id);
+
     List<Product> getProductsWithinCategory(int id);
 
     List<Product> getAllProducts();

@@ -13,6 +13,8 @@ public interface ProductService {
 
     Product createProduct(Product product);
 
+    boolean deleteProductById(int id);
+
     boolean uploadImage(Product product, MultipartFile file);
 
     Blob downloadImage(Product product);

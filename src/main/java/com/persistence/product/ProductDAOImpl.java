@@ -15,7 +15,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     @Override
     public Product getProductWithId(int id) {
         Product product = null;
-        String query = String.format("SELECT * FROM `%s`.product WHERE productID = ?;", ConfigSelector.SCHEMA);
+        String query = String.format("SELECT * FROM `%s`.product WHERE productID = ? AND inactive = 0;", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
@@ -72,6 +72,21 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         return null;
     }
 
+    @Override
+    public boolean deleteProductById(int id) {
+        String query = String.format("UPDATE `%s`.product SET `inactive`=1 WHERE productID = ?", ConfigSelector.SCHEMA);
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public int getCategoryIDByName(String name) {
         // TODO - Move this to CategoryDAO
         String getQuery = String.format("SELECT categoryID FROM `%s`.category WHERE name = ?", ConfigSelector.SCHEMA);
@@ -122,7 +137,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
         String query = "SELECT * from product p " +
                 "JOIN product_category pc " +
                 "on p.productID = pc.productID " +
-                "WHERE pc.categoryID = ?";
+                "WHERE pc.categoryID = ? AND p.inactive = 0";
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
@@ -148,7 +163,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     @Override
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM `product`";
+        String query = "SELECT * FROM `product` WHERE inactive = 0";
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

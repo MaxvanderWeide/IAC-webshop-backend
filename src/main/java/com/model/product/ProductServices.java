@@ -37,6 +37,11 @@ public class ProductServices implements ProductService {
     }
 
     @Override
+    public boolean deleteProductById(int id) {
+        return getIacDao().deleteProductById(id);
+    }
+
+    @Override
     public boolean uploadImage(Product product, MultipartFile file) {
         StorageGCP storageGCP = new StorageGCPFile();
         return storageGCP.uploadFile(file, product.getId());

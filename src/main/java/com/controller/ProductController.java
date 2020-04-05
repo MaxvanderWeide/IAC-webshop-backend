@@ -2,6 +2,7 @@ package com.controller;
 
 import com.google.api.client.util.Base64;
 import com.google.cloud.storage.Blob;
+import com.model.category.Category;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
@@ -63,6 +64,11 @@ public class ProductController {
         return response;
     }
 
+    @DeleteMapping("/{id}")
+    public boolean deleteProduct(HttpServletRequest request, @PathVariable int id) {
+        return getProductService().deleteProductById(id);
+    }
+
     @PostMapping("/{id}/images")
     public Map<Object, Object> createImageUsingProduct(HttpServletRequest request,
                                                        @RequestParam("file") MultipartFile file,
@@ -101,7 +107,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}/categories")
-    public String getCategoriesWithProductId(@PathVariable int id) {
-        return String.format("Category: %s", id);
+    public List<Category> getCategoriesWithProductId(@PathVariable int id) {
+        return getProductService().getProductWithId(id).getCategories();
     }
 }

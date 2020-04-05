@@ -50,7 +50,7 @@ public class DiscountDAOImpl extends BaseDAO implements DiscountDAO {
 
         String query = String.format("SELECT product.name, product.price, discount.*\n" +
                                         "FROM `%s`.discount, `%s`.product\n" +
-                                        "WHERE product.productID = discount.productID;", ConfigSelector.SCHEMA, ConfigSelector.SCHEMA);
+                                        "WHERE product.productID = discount.productID AND product.inactive = 0", ConfigSelector.SCHEMA, ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(query)) {
