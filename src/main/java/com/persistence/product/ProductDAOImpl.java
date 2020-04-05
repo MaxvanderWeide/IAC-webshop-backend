@@ -40,19 +40,26 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     public Product saveProduct(Product product) {
         String createQuery = String.format("INSERT INTO `%s`.product (name, description, price, categoryID) VALUE (?, ?, ?, ?);", ConfigSelector.SCHEMA);
         int categoryID = getCategoryIDByName("nieuw");
+        ResultSet rs;
 
         if (categoryID == 0) {
             return null;
         }
 
         try (Connection conn = getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(createQuery)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());
             preparedStatement.setDouble(3, product.getPrice());
             preparedStatement.setInt(4, categoryID);
 
             preparedStatement.execute();
+
+            rs = preparedStatement.getGeneratedKeys();
+
+            if (rs.next()) {
+                product.setId(rs.getInt(1));
+            }
 
             return product;
         } catch (SQLException e) {
