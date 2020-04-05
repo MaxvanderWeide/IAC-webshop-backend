@@ -93,7 +93,7 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
     }
 
     private boolean addToOrderProduct(int orderId, int productId) {
-        String safeQuery = String.format("INSERT INTO `%s`.order_product(orderID, productID) VALUES (?, ?)", ConfigSelector.SCHEMA);
+        String safeQuery = String.format("INSERT INTO `%s`.order_products (orderID, productID) VALUES (?, ?)", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(safeQuery)) {
@@ -109,18 +109,20 @@ public class CartDAOImpl extends BaseDAO implements CartDAO {
 
     private int addToOrder(CartItem cartItem) {
         String safeQuery = String.format("INSERT INTO `%s`.order(date, customerID, addressID, payment_methodID) VALUES (sysdate(), ?, ?, ?)", ConfigSelector.SCHEMA);
-
+        int id = cartItem.getCustomerID();
+        int address = getAddressWithCustomerId(id);
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(safeQuery, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, cartItem.getCustomerID());
-            preparedStatement.setInt(2, getAddressWithCustomerId(cartItem.getCustomerID()));
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, address);
             preparedStatement.setInt(3, 2);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            return 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
