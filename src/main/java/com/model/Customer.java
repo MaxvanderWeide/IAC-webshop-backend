@@ -21,14 +21,29 @@ public class Customer extends Account {
 
     //Getters and Setters
     //Name
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     //Phone
-    public int getPhone() {return phone;}
-    public void setPhone(int phone) {this.phone = phone;}
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
 
     //Email
-    public String getEmail() {return email;}
-    public void setEmail(String email) {this.email = email;}
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

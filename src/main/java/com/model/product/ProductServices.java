@@ -18,7 +18,8 @@ public class ProductServices implements ProductService {
         if (productDAO != null) {
             return productDAO;
         }
-        return productDAO = new ProductDAOImpl();
+        productDAO = new ProductDAOImpl();
+        return productDAO;
     }
 
     @Override
@@ -32,7 +33,9 @@ public class ProductServices implements ProductService {
     }
 
     @Override
-    public Product getProductWithId(int id) { return getIacDao().getProductWithId(id); }
+    public Product getProductWithId(int id) {
+        return getIacDao().getProductWithId(id);
+    }
 
     @Override
     public Product createProduct(Product product) {

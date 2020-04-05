@@ -18,19 +18,36 @@ public class Order {
         this.products = products;
     }
 
-    public double getCurrentOrderValue() {return 0;}
+    public double getCurrentOrderValue() {
+        return 0.00;
+    }
 
     //Getters and Setters
     //Id
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     //Date
-    public Date getDate() {return date;}
-    public void setDate(Date date) {this.date = date;}
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     //Total Price
-    public double getTotalPrice() {return totalPrice;}
-    public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }
 

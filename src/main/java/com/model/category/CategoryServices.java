@@ -14,7 +14,8 @@ public class CategoryServices implements CategoryService {
         if (categoryDAO != null) {
             return categoryDAO;
         }
-        return categoryDAO = new CategoryDAOImpl();
+        categoryDAO = new CategoryDAOImpl();
+        return categoryDAO;
     }
 
     @Override

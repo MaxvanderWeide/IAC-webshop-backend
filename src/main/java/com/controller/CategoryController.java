@@ -22,7 +22,8 @@ public class CategoryController {
         if (categoryService != null) {
             return categoryService;
         }
-        return categoryService = new CategoryServices();
+        categoryService = new CategoryServices();
+        return categoryService;
     }
 
     @GetMapping()

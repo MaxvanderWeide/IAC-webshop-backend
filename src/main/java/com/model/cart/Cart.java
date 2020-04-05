@@ -13,15 +13,35 @@ public class Cart {
         this.customerID = customerID;
     }
 
-    public int getItemID() { return itemID; }
-    public void setItemID(int itemID) { this.itemID = itemID; }
+    public int getItemID() {
+        return itemID;
+    }
 
-    public int getProductID() { return productID; }
-    public void setProductID(int productID) { this.productID = productID; }
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
+    }
 
-    public int getAmount() { return amount; }
-    public void setAmount(int amount) { this.amount = amount; }
+    public int getProductID() {
+        return productID;
+    }
 
-    public int getCustomerID() { return customerID; }
-    public void setCustomerID(int customerID) { this.customerID = customerID; }
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
+    }
 }

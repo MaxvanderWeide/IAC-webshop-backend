@@ -21,14 +21,14 @@ public class CategoryDAOImpl extends BaseDAO implements CategoryDAO {
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int productId = resultSet.getInt(1);
-                String name = resultSet.getString(2);
-                Product newProduct = new Product().setId(productId).setName(name);
-                products.add(newProduct);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int productId = resultSet.getInt(1);
+                    String name = resultSet.getString(2);
+                    Product newProduct = new Product().setId(productId).setName(name);
+                    products.add(newProduct);
+                }
             }
-            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

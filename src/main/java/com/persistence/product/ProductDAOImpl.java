@@ -10,7 +10,6 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
 
     @Override
     public Product getProductWithId(int id) {
-        ResultSet rs;
         Product product = null;
         String query = String.format("SELECT * FROM `%s`.product WHERE productID = ?;", ConfigSelector.SCHEMA);
 
@@ -18,15 +17,16 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
 
-            rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                product = new Product(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getDouble(4),
-                        rs.getInt(5)
-                );
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    product = new Product(
+                            rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getDouble(4),
+                            rs.getInt(5)
+                    );
+                }
             }
 
             return product;
@@ -62,16 +62,15 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
     }
 
     public int getCategoryIDByName(String name) {
-        ResultSet rs;
         String getQuery = String.format("SELECT categoryID FROM `%s`.category WHERE name = ?", ConfigSelector.SCHEMA);
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(getQuery)) {
             preparedStatement.setString(1, name);
-            rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
             return createCategoryWithName(name);
@@ -90,10 +89,11 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
             preparedStatement.setString(1, name);
             preparedStatement.execute();
 
-            ResultSet rs = preparedStatement.getGeneratedKeys();
+            try (ResultSet rs = preparedStatement.getGeneratedKeys()) {
 
-            if (rs.next()) {
-                return rs.getInt(1);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (SQLException e) {

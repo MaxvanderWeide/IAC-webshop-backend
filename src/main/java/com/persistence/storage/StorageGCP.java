@@ -6,5 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface StorageGCP {
 
     boolean uploadFile(MultipartFile file, int id);
+
     Blob downloadFile(int id);
 }

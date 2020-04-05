@@ -28,28 +28,34 @@ public class Product {
     public int getId() {
         return id;
     }
+
     public Product setId(int id) {
         this.id = id;
         return this;
     }
+
     public String getName() {
         return name;
     }
+
     public Product setName(String name) {
         this.name = name;
         return this;
     }
+
     public double getPrice() {
         return price;
     }
+
     public String getDescription() {
         return description;
     }
+
     public int getCategoryID() {
         return categoryID;
     }
 
     public String toString() {
-        return String.format("id=%s, name=%s, description=%s, price=%s, image=%s", id, name, description, price);
+        return String.format("id=%s, name=%s, description=%s, price=%s", id, name, description, price);
     }
 }

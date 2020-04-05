@@ -20,7 +20,7 @@ public class Discount {
 //        this.products = products;
 //    }
 
-    public Discount(int id, Date from, Date until, Double price, int product, String descript){
+    public Discount(int id, Date from, Date until, Double price, int product, String descript) {
         this.id = id;
         this.from = from;
         this.until = until;
@@ -31,12 +31,22 @@ public class Discount {
 
     //Getters and Setters
     //From
-    public Date getFrom() {return from;}
-    public void setFrom(Date from) {this.from = from;}
+    public Date getFrom() {
+        return from;
+    }
+
+    public void setFrom(Date from) {
+        this.from = from;
+    }
 
     //Until
-    public Date getUntil() {return until;}
-    public void setUntil(Date until) {this.until = until;}
+    public Date getUntil() {
+        return until;
+    }
+
+    public void setUntil(Date until) {
+        this.until = until;
+    }
 
     public Double getPrice() {
         return price;

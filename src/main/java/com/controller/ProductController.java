@@ -5,8 +5,6 @@ import com.google.cloud.storage.Blob;
 import com.model.product.Product;
 import com.model.product.ProductService;
 import com.model.product.ProductServices;
-import com.persistence.storage.StorageGCP;
-import com.persistence.storage.StorageGCPFile;
 import io.jsonwebtoken.Claims;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,20 +20,13 @@ import java.util.Map;
 public class ProductController {
 
     private ProductService productService;
-    private StorageGCP storageGCP;
 
     private ProductService getProductService() {
         if (productService != null) {
             return productService;
         }
-        return productService = new ProductServices();
-    }
-
-    private StorageGCP getStorageGCP() {
-        if (storageGCP != null) {
-            return storageGCP;
-        }
-        return storageGCP = new StorageGCPFile();
+        productService = new ProductServices();
+        return productService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

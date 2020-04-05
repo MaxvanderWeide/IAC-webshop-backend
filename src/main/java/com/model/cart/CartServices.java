@@ -13,18 +13,27 @@ public class CartServices implements CartService {
         if (cartDAO != null) {
             return cartDAO;
         }
-        return cartDAO = new CartDAOImpl();
+        cartDAO = new CartDAOImpl();
+        return cartDAO;
     }
 
     @Override
-    public List<Cart> getShoppingCartWithId(int id) { return getCartDAO().getCartWithId(id); }
+    public List<Cart> getShoppingCartWithId(int id) {
+        return getCartDAO().getCartWithId(id);
+    }
 
     @Override
-    public boolean updateCart(Cart cart) { return getCartDAO().updateCart(cart); }
+    public boolean updateCart(Cart cart) {
+        return getCartDAO().updateCart(cart);
+    }
 
     @Override
-    public Cart addProductToCart(Cart cart) { return getCartDAO().saveProductToCart(cart); }
+    public Cart addProductToCart(Cart cart) {
+        return getCartDAO().saveProductToCart(cart);
+    }
 
     @Override
-    public boolean deleteItem(int id) { return getCartDAO().deleteItem(id); }
+    public boolean deleteItem(int id) {
+        return getCartDAO().deleteItem(id);
+    }
 }
