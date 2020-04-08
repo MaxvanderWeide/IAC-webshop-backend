@@ -61,6 +61,12 @@ public class ProductController {
             return response;
         }
 
+        List<Category> categories = new ArrayList<>();
+        for (int categoryId : product.getCategoryIdList()) {
+            categories.add(getCategoryService().getCategoryWithId(categoryId));
+        }
+        product.setCategories(categories);
+
         Product product1 = getProductService().createProduct(product);
         if (product1 == null) {
             response.put(400, "Product kon niet gemaakt worden");
