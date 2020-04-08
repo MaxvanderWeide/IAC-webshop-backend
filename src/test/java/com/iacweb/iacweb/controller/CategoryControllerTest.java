@@ -13,10 +13,10 @@ public class CategoryControllerTest {
     @Test
     public void testFindCategoryById()
     {
-        Category category = categoryDAO.getCategoryById(3);
+        Category category = categoryDAO.getCategoryById(6);
 
-        Assert.assertEquals(3, category.getId());
-        Assert.assertEquals("nieuw", category.getName());
-        Assert.assertEquals("Test", category.getDescription());
+        Assert.assertEquals(6, category.getId());
+        Assert.assertEquals("Nieuw", category.getName());
+        Assert.assertEquals("Nieuw product.", category.getDescription());
     }
 }
