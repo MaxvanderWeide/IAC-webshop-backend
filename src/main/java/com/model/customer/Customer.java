@@ -10,7 +10,6 @@ public class Customer extends Account {
     private String lastName;
     private int phone;
     private String email;
-    private Address address;
 
     public Customer(int id, Date createdOn, String firstName, String lastName, int phone, String email, Address address) {
         super(id, createdOn);
@@ -18,7 +17,6 @@ public class Customer extends Account {
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
-        this.address = address;
     }
 
     public String getFirstName() {
