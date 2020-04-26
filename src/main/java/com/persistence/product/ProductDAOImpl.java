@@ -57,7 +57,7 @@ public class ProductDAOImpl extends BaseDAO implements ProductDAO {
             }
             rs.close();
             List<Integer> ids = new ArrayList<>();
-            ids.add(3);
+            ids.add(6);
             if (updateProductCategories(product.setCategoryIdList(ids))) {
                 return product;
             }

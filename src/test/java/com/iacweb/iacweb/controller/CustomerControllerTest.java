@@ -18,28 +18,28 @@ public class CustomerControllerTest {
     @Test
     public void testFindUserById()
     {
-        Customer customer = customerDAO.getCustomerByID(1);
+        Customer customer = customerDAO.getCustomerByID(5);
 
         Date dateCreated = customer.getCreatedOn();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strCreated = dateFormat.format(dateCreated);
 
-        Assert.assertEquals("Stefan", customer.getFirstName());
-        Assert.assertEquals("Jovanovic", customer.getLastName());
-        Assert.assertEquals(643493022, customer.getPhone());
-        Assert.assertEquals("stefan.jovanovic@student.hu.nl", customer.getEmail());
-        Assert.assertEquals("2020-05-08", strCreated);
+        Assert.assertEquals("Max", customer.getFirstName());
+        Assert.assertEquals("van der Weide", customer.getLastName());
+        Assert.assertEquals(656764322, customer.getPhone());
+        Assert.assertEquals("max.vanderweide@student.hu.nl", customer.getEmail());
+        Assert.assertEquals("2020-04-08", strCreated);
     }
 
     @Test
     public void testFindAdressById()
     {
-        Address address = customerDAO.getAddressById(1);
+        Address address = customerDAO.getAddressById(7);
 
-        Assert.assertEquals("Cederlaan 15", address.getStreet());
-        Assert.assertEquals("Veenendaal", address.getCity());
+        Assert.assertEquals("Bothheidestraat", address.getStreet());
+        Assert.assertEquals("Amersfoort", address.getCity());
         Assert.assertEquals("Utrecht", address.getState());
-        Assert.assertEquals("3904 KC", address.getPostalCode());
-        Assert.assertEquals("Netherlands", address.getCountry());
+        Assert.assertEquals("3516 RX", address.getPostalCode());
+        Assert.assertEquals("Nederland", address.getCountry());
     }
 }

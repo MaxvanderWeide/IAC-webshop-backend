@@ -17,7 +17,7 @@ public class DiscountControllerTest {
     @Test
     public void testFindById()
     {
-        Discount discount = discountDAO.getDiscountWithId(3);
+        Discount discount = discountDAO.getDiscountWithId(1);
 
         Date dateFrom = discount.getFrom();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -27,10 +27,10 @@ public class DiscountControllerTest {
         DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
         String strDateUntil = dateFormat2.format(dateUntil);
 
-        Assert.assertEquals("2020-04-01", strDateFrom);
-        Assert.assertEquals("2020-04-08", strDateUntil);
-        Assert.assertEquals(81.50, discount.getPrice(), 0.001);
+        Assert.assertEquals("2020-04-02", strDateFrom);
+        Assert.assertEquals("2020-04-09", strDateUntil);
+        Assert.assertEquals(278, discount.getPrice(), 0.001);
         Assert.assertEquals(1, discount.getProduct());
-        Assert.assertEquals("Reclametekst", discount.getDescription());
+        Assert.assertEquals("Aanbieding tekst!", discount.getDescription());
     }
 }

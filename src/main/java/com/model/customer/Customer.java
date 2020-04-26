@@ -34,4 +34,7 @@ public class Customer extends Account {
     public String getEmail() {
         return email;
     }
+    public Address getAddress() {
+        return address;
+    }
 }
